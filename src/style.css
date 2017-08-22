@@ -1,0 +1,148 @@
+/** overrides **/
+
+.navbar>.container>.nav>a {
+  padding: 15px 10px 12px 10px;
+}
+
+.navbar>.container>.nav>a.active {
+  border-bottom: 1px dotted #ababab;
+}
+
+html, body {
+  font-family: "Helvetica Nue", Helvetica;
+}
+
+.container {
+  margin-top: 50px;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+.pipeline {
+  width: auto;
+  display: inline-block;
+}
+
+.pipe {
+  width: 100px;
+  height: 2px;
+  float: left;
+  position: relative;
+  top: 10px;
+  margin-left: -1px;
+  margin-right: -1px;
+  z-index: -1;
+  background: #d7d5d5;
+}
+
+.node {
+  position: relative;
+  height: 24px;
+  width: 24px;
+  float: left;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.node:after {
+  border-radius: 24px;
+}
+
+.node>.text-top {
+  position: absolute;
+  bottom: 25px;
+  font-weight: 100;
+}
+
+.node>.text-bottom {
+  position: absolute;
+  top: 25px;
+  font-weight: 100;
+}
+
+.node.end {
+  height: 16px;
+  width: 16px;
+  background: #CBCBCB;
+  border-radius: 8px;
+  float: left;
+  position: relative;
+  top: 4px;
+}
+
+.node:hover {
+  cursor: pointer;
+}
+
+.node.fail {
+  border: 1px solid #D24146;
+  border-radius: 12px;
+}
+
+.node.fail:after {
+  height: 6px;
+  width: 6px;
+  border-radius: 12px;
+  background: #D24146;
+  content: "";
+  border: 3px solid #D24146;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  margin: 8px;
+  transition: all 0.2s ease-in;
+}
+
+.node.success:after {
+  height: 100%;
+  width: 100%;
+  background: #16ad40;
+  content: "";
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+}
+
+.node.warning {
+  border: 1px solid #ffd147;
+  border-radius: 12px;
+}
+
+.node.warning:after {
+  height: 6px;
+  width: 6px;
+  content: "";
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  margin: 7px;
+  transition: all 0.2s ease-in;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 5px solid #ffd147;
+}
+
+.node.unknown {
+  border: 1px solid #cbcbcb;
+  border-radius: 12px;
+}
+
+.node.unknown:after {
+  height: 6px;
+  width: 6px;
+  content: "";
+  margin: 7px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  transition: all 0.2s ease-in;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 5px solid #ffd147;
+}
