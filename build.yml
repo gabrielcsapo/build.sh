@@ -1,12 +1,14 @@
-output: ./docs
+output: ./docs/example
 pipeline:
   install:
     - npm --version
     - node --version
-    - npm install
+    - npm:
+      - npm install
+      - ls -lh node_modules
   lint:
     - npm run lint
-  build:
+  coverage:
     - npm run coverage
   test:
     - npm test

@@ -9,9 +9,9 @@ const ora = require('ora');
 const open = require('opn');
 const ms = require('ms');
 
-const Git = require('../src/git');
-const Compile = require('../src/compile');
-const Pipeline = require('../src/pipeline');
+const Git = require('../util/git');
+const Compile = require('../util/compile');
+const Pipeline = require('../util/pipeline');
 
 program
   .version(require('../package.json').version)
@@ -45,11 +45,30 @@ try {
   });
 
   events.on('end', (results) => {
+
     spinner.text = 'Capturing git information';
 
     Git()
       .then((info) => {
         spinner.text = 'Compiling report';
+
+        fs.writeFileSync('build.json', JSON.stringify({
+          git: info,
+          name: pkg.name,
+          description: pkg.description,
+          source: pkg.repository.url,
+          process: {
+            versions: process.versions,
+            env: process.env,
+            arch: process.arch,
+            platform: process.platform,
+            release: process.release,
+            version: process.version,
+            features: process.features,
+            config: process.config
+          },
+          pipeline: results
+        }, null, 4));
 
         Compile({
           config: {
@@ -70,7 +89,10 @@ try {
             pipeline: results
           },
           output: path.resolve(output) || process.cwd() + '/build'
-        }, () => {
+        }, (error) => {
+          if(error) {
+            return spinner.fail(`Compile has failed with the following error:\n${error}`);
+          }
           const reportLocation = path.resolve((path.resolve(output) || process.cwd() + '/build'), 'index.html');
           const end = process.hrtime(start);
           spinner.succeed(`Report compiled [${ms(((end[0] * 1e9) + end[1]) / 1e6)}]\nLocated at ${reportLocation}`);

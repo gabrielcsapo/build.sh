@@ -1,7 +1,7 @@
 const test = require('tape').test;
 const path = require('path');
 const shell = require('shelljs');
-const git = require('../src/git');
+const git = require('../util/git');
 
 test('git', (t) => {
   t.plan(4);

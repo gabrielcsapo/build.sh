@@ -38,10 +38,12 @@ pipeline:
   install:
     - npm --version
     - node --version
-    - npm install
+    - npm:
+      - npm install
+      - ls -lh node_modules
   lint:
     - npm run lint
-  build:
+  coverage:
     - npm run coverage
   test:
     - npm test
@@ -51,7 +53,7 @@ pipeline:
 
 Will yield the following results:
 
-![example.png](./docs/example.png)
+![success.png](./docs/success.png)
 
 Sometimes things go as planned and certain build phases will fail and that will yield:
 

@@ -3,7 +3,7 @@
         "allowUnknownTags": false
     },
     "source": {
-        "include": ["./src", "README.md"],
+        "include": ["./util", "README.md"],
         "includePattern": ".js$",
         "excludePattern": "(node_modules/|docs)"
     },

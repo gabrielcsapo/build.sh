@@ -1,5 +1,5 @@
 /**
- * @module src/git
+ * @module util/git
  */
 
 const { exec } = require('child_process');

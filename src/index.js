@@ -6,6 +6,8 @@ import ms from 'ms';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
+import Pipeline from './pipeline';
+
 const ICONS = {
   'success': '✔',
   'fail': 'ｘ',
@@ -28,7 +30,7 @@ class Stage extends React.Component {
     });
   }
   render() {
-    const { title, time, output, state } = this.props;
+    const { name, time, output, state } = this.props;
     const backgroundColor = !state ? '#cbcbcb' : (state === 'success' ? '#16ad40' : (state === 'warning' ? '#ffd147' : (state === 'fail' ? '#D24146' : '#dedede' )));
     const { selected } = this.state;
 
@@ -39,7 +41,7 @@ class Stage extends React.Component {
             {ICONS[state]}
           </span>
           <span style={{ marginLeft: "20px" }}>
-            { title }
+            { name }
           </span>
 
           <div style={{ float: "right" }}> { ms(time || 0) } </div>
@@ -54,80 +56,18 @@ class Stage extends React.Component {
 
 class Stages extends React.Component {
   render() {
-    const { stages, title } = this.props;
+    const { stages, name } = this.props;
 
     return (<div>
-      <div> { title } </div>
+      <div> { name } </div>
       <ul style={{ listStyle: 'none' }}>
-      { stages.map((stage,i) => {
+      { stages.map((child,i) => {
         return (<li>
-          <Stage key={i} {...stage}/>
+          <Stage key={i} {...child}/>
         </li>);
       }) }
       </ul>
     </div>)
-  }
-}
-
-class Pipeline extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedStage: ''
-    };
-  }
-  showStages(title, stages) {
-    this.setState({
-      selectedStage: <Stages title={ title } stages={ stages }/>
-    });
-  }
-  showAllStages(pipeline) {
-    const selectedStage = pipeline.map((stage) => {
-      const { title, stages } = stage;
-      return <Stages title={ title } stages={ stages }/>;
-    });
-
-    this.setState({
-      selectedStage
-    });
-  }
-  render() {
-    let { selectedStage } = this.state;
-    const { pipeline } = this.props;
-
-    // set the default stage to the first item in the pipeline
-    if(!selectedStage) {
-      selectedStage = <Stages title={ pipeline[0].title } stages={ pipeline[0].stages }/>
-    }
-    let totalTime = 0;
-
-    return (
-      <div>
-        <div className="pipeline">
-          { pipeline.map((stage) => {
-            const { title, stages, state } = stage;
-            const time = stages.map((s) => s.time).reduce((a, b) => a + b, 0) || 0;
-            totalTime += time;
-
-            return (<span>
-              <div className={ `node ${state}`} onClick={this.showStages.bind(this, title, stages)}>
-                <div className="text-top"> { title }</div>
-                <div className="text-bottom"> { ms(time) || '?' } </div>
-              </div>
-              <div className="pipe"></div>
-            </span>)
-          })
-          || ''}
-          <div className="node end" onClick={this.showAllStages.bind(this, pipeline)}>
-            <div className="text-top" style={{ color: "#808080" }}> end </div>
-            <div className="text-bottom"> { ms(totalTime) || '?' } </div>
-          </div>
-        </div>
-        <div style={{ margin: "50px", textAlign: "left" }}>
-          { selectedStage }
-        </div>
-      </div>
-    )
   }
 }
 
@@ -137,7 +77,8 @@ class Container extends React.Component {
 
     super(props);
     this.state = {
-      hash
+      hash,
+      selectedStage: ''
     };
   }
   updateHash(hash) {
@@ -145,9 +86,16 @@ class Container extends React.Component {
       hash
     });
   }
+  showStages(parent) {
+    const { name, stages } = parent;
+
+    this.setState({
+      selectedStage: <Stages name={name} stages={stages}/>
+    });
+  }
   render() {
     const { name, description, source, pipeline, git, process } = this.props;
-    const { hash } = this.state;
+    const { hash, selectedStage } = this.state;
 
     document.title = name;
 
@@ -166,8 +114,13 @@ class Container extends React.Component {
         </div>
         <div>
           { hash === '' ?
-            <div className="container">
-              <Pipeline pipeline={pipeline} />
+            <div>
+              <div className="pipeline">
+                <Pipeline stages={pipeline} onSelect={this.showStages.bind(this)} />
+              </div>
+              <div className="stages">
+                { selectedStage }
+              </div>
             </div>
           : '' }
           { hash === '#information' ?
@@ -195,4 +148,4 @@ Container.propTypes = {
   process: PropTypes.string
 };
 
-render(<Container {...config}/>, document.getElementById('root'));
+render(<Container {...config}/>, document.querySelector('#root'));
