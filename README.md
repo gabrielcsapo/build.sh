@@ -6,6 +6,7 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [How To](#how-to)
 
 <!-- /TOC -->
 
@@ -16,6 +17,20 @@ npm install build.sh -g
 ```
 
 ## Usage
+
+```
+Usage: build [options]
+
+
+Options:
+
+  -V, --version        output the version number
+  -c, --config [file]  the input file for the build pipeline to run
+  -d, --debug          outputs a debug file of the build process and data captured
+  -h, --help           output usage information
+```
+
+## How To
 
 > commit a `build.yml` file to your project root
 
@@ -59,6 +74,10 @@ Sometimes things go as planned and certain build phases will fail and that will 
 
 ![fail.png](./docs/fail.png)
 
-An important factor when dealing with build pipelines is the persistence of environment variables and git information which is recorded and accessible via the `Information` tab:
+An important factor when dealing with build pipelines is the persistence of environment variables and git information which is recorded and accessible via the `Environment` tab:
 
-![information.png](./docs/information.png)
+![environment.png](./docs/environment.png)
+
+If the build report was ran and built using `build.sh` it will also record the yaml file that it ran with under the `Config` tab.
+
+![config.png](./docs/config.png)

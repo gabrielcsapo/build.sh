@@ -22,6 +22,15 @@ html, body {
   margin: 0 auto;
 }
 
+.stage-icon {
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  line-height: 30px;
+}
+
 .pipeline-connector {
   stroke: #949393;
 }
@@ -38,16 +47,19 @@ html, body {
   fill: #a7a7a7;
 }
 
-.icon-failure {
+.icon-fail {
   fill: red;
+  background: red;
 }
 
 .icon-success {
   fill: green;
+  background: green;
 }
 
 .icon-unknown {
   fill: orange;
+  background: orange;
 }
 
 .icon {

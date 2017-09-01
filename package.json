@@ -1,6 +1,6 @@
 {
   "name": "build.sh",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "🔨 run and visualize the build process",
   "repository": {
     "type": "https",

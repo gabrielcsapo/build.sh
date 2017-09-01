@@ -7,13 +7,7 @@ import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
 import Pipeline from './pipeline';
-
-const ICONS = {
-  'success': '✔',
-  'fail': 'ｘ',
-  'warning': '⚠',
-  'unknown': '⚠'
-};
+import Icon from './icon';
 
 class Stage extends React.Component {
   constructor(props) {
@@ -31,14 +25,17 @@ class Stage extends React.Component {
   }
   render() {
     const { name, time, output, state } = this.props;
-    const backgroundColor = !state ? '#cbcbcb' : (state === 'success' ? '#16ad40' : (state === 'warning' ? '#ffd147' : (state === 'fail' ? '#D24146' : '#dedede' )));
     const { selected } = this.state;
 
     return (
       <div>
         <div style={{ padding: "10px", border: "1px solid #dedede", borderBottom: selected ? 0 : '1px solid #dedede', position: "relative" }} onClick={this.toggle.bind(this)}>
-          <span style={{ color: "white", padding: "5px", position: "absolute", top: 0, left: 0, bottom: 0, lineHeight: "30px", backgroundColor }}>
-            {ICONS[state]}
+          <span className={`stage-icon icon-${state}`}>
+            <svg width="16" height="30">
+              <g x="0" y="0" transform="translate(8, 14)" style={{ fill: "white" }}>
+                { Icon.getStatus(state) }
+              </g>
+            </svg>
           </span>
           <span style={{ marginLeft: "20px" }}>
             { name }
@@ -62,8 +59,8 @@ class Stages extends React.Component {
       <div> { name } </div>
       <ul style={{ listStyle: 'none' }}>
       { stages.map((child,i) => {
-        return (<li>
-          <Stage key={i} {...child}/>
+        return (<li key={`${name}-${i}`}>
+          <Stage {...child}/>
         </li>);
       }) }
       </ul>
@@ -73,12 +70,10 @@ class Stages extends React.Component {
 
 class Container extends React.Component {
   constructor(props) {
-    const { hash } = location;
-
     super(props);
     this.state = {
-      hash,
-      selectedStage: ''
+      hash: location.hash,
+      selectedStage: <Stages name={props.pipeline[0].name} stages={props.pipeline[0].stages}/>
     };
   }
   updateHash(hash) {
@@ -94,7 +89,7 @@ class Container extends React.Component {
     });
   }
   render() {
-    const { name, description, source, pipeline, git, process } = this.props;
+    const { name, description, source, pipeline, git, environment, config } = this.props;
     const { hash, selectedStage } = this.state;
 
     document.title = name;
@@ -108,7 +103,10 @@ class Container extends React.Component {
             </div>
             <div className="nav text-black">
               <a href="#" className={ hash === '' ? 'active' : '' } onClick={this.updateHash.bind(this, '')}>Pipeline</a>
-              <a href="#information" className={ hash === '#information' ? 'active' : '' } onClick={this.updateHash.bind(this, '#information')}>Information</a>
+              { config ?
+                <a href="#config" className={ hash === '#config' ? 'active' : '' } onClick={this.updateHash.bind(this, '#config')}>Config</a>
+              : '' }
+              <a href="#environment" className={ hash === '#environment' ? 'active' : '' } onClick={this.updateHash.bind(this, '#environment')}>Environment</a>
             </div>
           </div>
         </div>
@@ -116,20 +114,27 @@ class Container extends React.Component {
           { hash === '' ?
             <div>
               <div className="pipeline">
-                <Pipeline stages={pipeline} onSelect={this.showStages.bind(this)} />
+                <Pipeline stages={pipeline} defaultSelectStage={pipeline && pipeline[0] && pipeline[0]} onSelect={this.showStages.bind(this)} />
               </div>
               <div className="stages">
                 { selectedStage }
               </div>
             </div>
           : '' }
-          { hash === '#information' ?
+          { hash === '#environment' ?
             <div style={{ width: "90%", margin: "0 auto" }}>
               <pre style={{ whiteSpace: "pre" }}>
                 { JSON.stringify({
-                  process,
+                  environment,
                   git
                 }, null, 4) }
+              </pre>
+            </div>
+          : '' }
+          { hash === '#config' ?
+            <div style={{ width: "90%", margin: "0 auto" }}>
+              <pre style={{ whiteSpace: "pre" }}>
+                { config }
               </pre>
             </div>
           : '' }

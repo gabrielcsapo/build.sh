@@ -1,3 +1,11 @@
+# 0.2.0 (08/31/2017)
+
+- adds a -d, --debug option to control the output of a build.json file that contains information about the build pipeline
+- sets the first stage to the default default on page load
+- capture the build pipeline config if it exists (display this under a tab named Config)
+- fixes a bug with commands being opened due to not using keys
+- both the stage icons and the pipeline icons are the same, so are the colors
+
 # 0.1.0 (08/24/2017)
 
 - updates doc page
