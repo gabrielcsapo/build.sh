@@ -1,6 +1,6 @@
 //
 import React from 'react';
-import ms from 'ms';
+import { ms } from '../lib/util';
 import Icon from './icon';
 
 const nodeStrokeWidth = 3.5;
@@ -22,7 +22,7 @@ function connectorKey(leftNode, rightNode) {
     return 'c_' + leftNode.key + '_to_' + rightNode.key;
 }
 
-export class PipelineGraph extends React.Component {
+export class Pipeline extends React.Component {
 
     constructor(props) {
         super(props);
@@ -564,10 +564,9 @@ export class PipelineGraph extends React.Component {
             const { name, state } = node.stage;
 
             groupChildren.push(
-              <g className="icon"><circle cx="0" cy="0" r="12" className={ `icon-${state}` }></circle>
-                <g>
-                  { Icon.getStatus(state) }
-                </g>
+              <g className="icon">
+                <circle cx="0" cy="0" r="12" className={ `icon-${state}` }></circle>
+                <Icon status={state}/>
               </g>
             );
 
@@ -680,7 +679,7 @@ export class PipelineGraph extends React.Component {
         });
 
         return (
-            <div style={outerDivStyle} className="PipelineGraph">
+            <div style={outerDivStyle} className="Pipeline">
                 <svg width={measuredWidth} height={measuredHeight}>
                     {visualElements}
                 </svg>
@@ -691,10 +690,4 @@ export class PipelineGraph extends React.Component {
     }
 }
 
-// PipelineGraph.propTypes = {
-//     stages: PropTypes.array,
-//     layout: PropTypes.object,
-//     onSelect: PropTypes.func,
-// };
-
-module.exports = PipelineGraph;
+module.exports = Pipeline;

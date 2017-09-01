@@ -1,5 +1,3 @@
-/** overrides **/
-
 .navbar > .container > .nav > a {
   padding: 15px 10px 12px 10px;
 }
@@ -58,6 +56,11 @@ html, body {
 }
 
 .icon-unknown {
+  fill: orange;
+  background: orange;
+}
+
+.icon-{
   fill: orange;
   background: orange;
 }

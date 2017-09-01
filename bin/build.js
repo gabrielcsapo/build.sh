@@ -7,11 +7,11 @@ const fs   = require('fs');
 const yaml = require('js-yaml');
 const ora = require('ora');
 const open = require('opn');
-const ms = require('ms');
 
-const Git = require('../util/git');
-const Compile = require('../util/compile');
-const Pipeline = require('../util/pipeline');
+const Git = require('../lib/git');
+const Compile = require('../lib/compile');
+const Pipeline = require('../lib/pipeline');
+const { ms } = require('../lib/util');
 
 program
   .version(require('../package.json').version)

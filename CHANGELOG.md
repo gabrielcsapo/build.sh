@@ -1,3 +1,10 @@
+# 0.2.2 (09/01/2017)
+
+- adds react-storybook stories to show use cases
+- adds tests for pipeline and utils
+- fixes bug with pipelines that does not fail parent if child fails
+- abstracts stages and icon classes
+
 # 0.2.1 (08/31/2017)
 
 - package and run as a global binary with pkg

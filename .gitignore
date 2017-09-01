@@ -3,6 +3,6 @@ node_modules
 coverage
 package-lock.json
 .DS_Store
-webpack.config.js
+./webpack.config.js
 build.json
 packed
