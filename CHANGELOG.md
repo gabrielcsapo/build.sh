@@ -1,3 +1,7 @@
+# 0.2.1 (08/31/2017)
+
+- package and run as a global binary with pkg
+
 # 0.2.0 (08/31/2017)
 
 - adds a -d, --debug option to control the output of a build.json file that contains information about the build pipeline

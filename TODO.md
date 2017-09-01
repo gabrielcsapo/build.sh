@@ -4,5 +4,3 @@
 - [ ] generate a similar pipeline view in the console
 - [ ] add prop types
 - [ ] add the option to to take in a build.json file and generate a report from that
-- [ ] package and run as a global binary with pkg
-  - [ ] document how to run and install it from binary form

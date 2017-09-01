@@ -1,6 +1,6 @@
 {
   "name": "build.sh",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "🔨 run and visualize the build process",
   "repository": {
     "type": "https",
@@ -15,7 +15,8 @@
     "lint": "eslint .",
     "test": "tape test/**.js",
     "coverage": "tap test --coverage --coverage-report=lcov --no-browser ",
-    "generate-docs": "jsdoc -c jsdoc.json"
+    "generate-docs": "jsdoc -c jsdoc.json",
+    "pack": "pkg bin/build.js -c package.json -o packed/build"
   },
   "bin": {
     "build": "./bin/build.js"
@@ -50,7 +51,24 @@
     "eslint": "^4.5.0",
     "eslint-plugin-react": "^7.3.0",
     "jsdoc": "^3.5.4",
+    "pkg": "^4.2.4",
     "tap": "^10.7.1",
     "tape": "^4.8.0"
+  },
+  "pkg": {
+    "scripts": [
+      "bin/*",
+      "util/**/*"
+    ],
+    "assets": [
+      "src/**/*",
+      "node_modules/psychic-ui/dist/psychic-min.css"
+    ],
+    "targets": [
+      "node8-macos-x64",
+      "node8-alpine-x64",
+      "node8-linux-x64",
+      "node8-win-x64"
+    ]
   }
 }

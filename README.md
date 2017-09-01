@@ -12,6 +12,8 @@
 
 ## Installation
 
+This module can be installed via npm, or for those who do not have node on their machines can use the packed binary found [here](https://github.com/gabrielcsapo/build.sh/releases) which can downloaded to your computer and run as a executable.
+
 ```
 npm install build.sh -g
 ```
