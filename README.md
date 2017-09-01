@@ -6,6 +6,7 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [How To](#how-to)
 
 <!-- /TOC -->
 
@@ -16,6 +17,20 @@ npm install build.sh -g
 ```
 
 ## Usage
+
+```
+Usage: build [options]
+
+
+Options:
+
+  -V, --version        output the version number
+  -c, --config [file]  the input file for the build pipeline to run
+  -d, --debug          outputs a debug file of the build process and data captured
+  -h, --help           output usage information
+```
+
+## How To
 
 > commit a `build.yml` file to your project root
 

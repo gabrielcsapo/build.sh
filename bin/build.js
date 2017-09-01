@@ -16,15 +16,17 @@ const Pipeline = require('../util/pipeline');
 program
   .version(require('../package.json').version)
   .option('-c, --config [file]', 'the input file for the build pipeline to run', path.resolve(process.cwd(), 'build.yml'))
+  .option('-d, --debug', 'outputs a debug file of the build process and data captured', false)
   .parse(process.argv);
 
-const { config } = program;
+const { config, debug } = program;
 
 const spinner = ora('Parsing build.yml').start();
 
 try {
   const pkg = require(path.resolve(process.cwd(), 'package.json'));
-  const doc = yaml.safeLoad(fs.readFileSync(config, 'utf8'));
+  const buildFile = fs.readFileSync(config, 'utf8');
+  const doc = yaml.safeLoad(buildFile);
   const { pipeline, output } = doc;
 
   spinner.text = 'Running pipeline';
@@ -52,23 +54,26 @@ try {
       .then((info) => {
         spinner.text = 'Compiling report';
 
-        fs.writeFileSync('build.json', JSON.stringify({
-          git: info,
-          name: pkg.name,
-          description: pkg.description,
-          source: pkg.repository.url,
-          process: {
-            versions: process.versions,
-            env: process.env,
-            arch: process.arch,
-            platform: process.platform,
-            release: process.release,
-            version: process.version,
-            features: process.features,
-            config: process.config
-          },
-          pipeline: results
-        }, null, 4));
+        if(debug) {
+          fs.writeFileSync('build.json', JSON.stringify({
+            git: info,
+            name: pkg.name,
+            description: pkg.description,
+            source: pkg.repository.url,
+            config: buildFile,
+            environment: {
+              versions: process.versions,
+              env: process.env,
+              arch: process.arch,
+              platform: process.platform,
+              release: process.release,
+              version: process.version,
+              features: process.features,
+              config: process.config
+            },
+            pipeline: results
+          }, null, 4));
+        }
 
         Compile({
           config: {
@@ -76,7 +81,8 @@ try {
             name: pkg.name,
             description: pkg.description,
             source: pkg.repository.url,
-            process: {
+            config: buildFile,
+            environment: {
               versions: process.versions,
               env: process.env,
               arch: process.arch,

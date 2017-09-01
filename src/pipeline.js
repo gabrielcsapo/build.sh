@@ -34,6 +34,7 @@ export class PipelineGraph extends React.Component {
             measuredWidth: 0,
             measuredHeight: 0,
             layout: Object.assign({}, defaultLayout, props.layout),
+            defaultSelectStage: props.defaultSelectStage || '',
             selectedStage: props.selectedStage,
         };
     }
@@ -562,7 +563,13 @@ export class PipelineGraph extends React.Component {
         } else {
             const { name, state } = node.stage;
 
-            groupChildren.push(Icon.getStatus(state))
+            groupChildren.push(
+              <g className="icon"><circle cx="0" cy="0" r="12" className={ `icon-${state}` }></circle>
+                <g>
+                  { Icon.getStatus(state) }
+                </g>
+              </g>
+            );
 
             if (name) {
                 groupChildren.push(<div>{ name }</div>);
@@ -603,8 +610,9 @@ export class PipelineGraph extends React.Component {
      * Is this stage currently selected?
      */
     stageIsSelected(stage) {
-        const { selectedStage } = this.state;
-        return selectedStage && selectedStage === stage;
+        const { selectedStage, defaultSelectStage } = this.state;
+
+        return selectedStage ? selectedStage === stage : defaultSelectStage === stage;
     }
 
     /**
