@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
-import { Stages } from './stage'; 
+import { Stages } from './stage';
 import Pipeline from './pipeline';
 
 class Container extends React.Component {
@@ -53,10 +53,10 @@ class Container extends React.Component {
         <div>
           { hash === '' ?
             <div>
-              <div className="pipeline">
+              <div className="pipeline-container">
                 <Pipeline stages={pipeline} defaultSelectStage={pipeline && pipeline[0] && pipeline[0]} onSelect={this.showStages.bind(this)} />
               </div>
-              <div className="stages">
+              <div className="stages-container">
                 { selectedStage }
               </div>
             </div>

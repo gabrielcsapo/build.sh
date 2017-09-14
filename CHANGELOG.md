@@ -1,3 +1,10 @@
+# 0.2.3 (09/13/2017)
+
+- adds arrow to show opened stages
+- time indicator on stage is now light grey
+- cleans up inlined styles (reduces bundle size)
+- updates dependencies
+
 # 0.2.2 (09/01/2017)
 
 - adds react-storybook stories to show use cases

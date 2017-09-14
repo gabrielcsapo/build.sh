@@ -23,22 +23,23 @@ class Stage extends React.Component {
 
     return (
       <div>
-        <div style={{ padding: "10px", border: "1px solid #dedede", borderBottom: selected ? 0 : '1px solid #dedede', position: "relative" }} onClick={this.toggle.bind(this)}>
+        <div className="stage" style={{ borderBottom: selected ? 0 : '1px solid #dedede' }} onClick={this.toggle.bind(this)}>
           <span className={`stage-icon icon-${state}`}>
             <svg width="16" height="30">
-              <g x="0" y="0" transform="translate(8, 14)" style={{ fill: "white" }}>
+              <g x="0" y="0" transform="translate(8, 14)">
                 <Icon status={state}/>
               </g>
             </svg>
           </span>
-          <span style={{ marginLeft: "20px" }}>
-            { name }
+
+          <span className="stage-title">
+            { selected ? "▿" : "▹"} { name }
           </span>
 
-          <div style={{ float: "right" }}> { ms(time || 0) } </div>
+          <div className="stage-time"> { ms(time || 0) } </div>
         </div>
         { selected ?
-          <pre style={{ whiteSpace: "pre-line", marginTop: 0, border: "1px solid #dedede", borderRadius: 0 }}> { output } </pre>
+          <pre> { output } </pre>
         : '' }
       </div>
     )
@@ -51,12 +52,12 @@ class Stages extends React.Component {
 
     return (<div>
       <div> { name } </div>
-      <ul style={{ listStyle: 'none' }}>
-      { stages.map((child,i) => {
-        return (<li key={`${name}-${i}`}>
-          <Stage {...child}/>
-        </li>);
-      }) }
+      <ul className="stages">
+        { stages.map((child,i) => {
+          return (<li key={`${name}-${i}`}>
+            <Stage {...child}/>
+          </li>);
+        }) }
       </ul>
     </div>)
   }

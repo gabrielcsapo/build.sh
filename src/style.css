@@ -10,16 +10,38 @@ html, body {
   font-family: "Helvetica Nue", Helvetica;
 }
 
-.pipeline {
+.pipeline-container {
   width: 100%;
   overflow-x: scroll;
   text-align: center;
 }
-.stages {
+
+.stages-container {
   width: 90%;
   margin: 0 auto;
 }
 
+.stages {
+  list-style: none;
+}
+.stage {
+  padding: 10px;
+  border: 1px solid #dedede;
+  position: relative;
+}
+.stage + pre {
+  white-space: pre-line;
+  margin-top: 0;
+  border: 1px solid #dedede;
+  border-radius: 0;
+}
+.stage-time {
+  float: right;
+  color: #969696;
+}
+.stage-title {
+  margin-left: 20px;
+}
 .stage-icon {
   padding: 5px;
   position: absolute;
@@ -27,6 +49,9 @@ html, body {
   left: 0;
   bottom: 0;
   line-height: 30px;
+}
+.stage-icon > svg > g {
+  fill: white;
 }
 
 .pipeline-connector {
