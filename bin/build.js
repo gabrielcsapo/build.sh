@@ -5,13 +5,13 @@ const path = require('path');
 
 const fs   = require('fs');
 const yaml = require('js-yaml');
-const ora = require('ora');
 const open = require('opn');
+const logUpdate = require('log-update');
 
 const Git = require('../lib/git');
 const Compile = require('../lib/compile');
 const Pipeline = require('../lib/pipeline');
-const { ms } = require('../lib/util');
+const { ms, renderAsciiPipe } = require('../lib/util');
 
 program
   .version(require('../package.json').version)
@@ -21,39 +21,29 @@ program
 
 const { config, debug } = program;
 
-const spinner = ora('Parsing build.yml').start();
-
 try {
   const pkg = require(path.resolve(process.cwd(), 'package.json'));
   const buildFile = fs.readFileSync(config, 'utf8');
   const doc = yaml.safeLoad(buildFile);
   const { pipeline, output } = doc;
 
-  spinner.text = 'Running pipeline';
-
   const events = Pipeline(pipeline);
   const start = process.hrtime();
+  let completed = [];
 
-  events.on('stage:start', (stage) => {
-    spinner.text = `Starting stage ${stage}`;
+  events.on('stage:end', (stage) => {
+    completed.push(stage);
+
+    logUpdate(renderAsciiPipe(pipeline, completed));
   });
 
-  events.on('stage:start:command', (stage, command) => {
-    spinner.text = `Running command ${command} on stage ${stage}`;
-  });
-
-  events.on('error', (error) => {
-    spinner.fail(`pipeline failed with error ${error}`);
-  });
+  logUpdate(renderAsciiPipe(pipeline, completed));
 
   events.on('end', (results) => {
-
-    spinner.text = 'Capturing git information';
+    console.log('Capturing git information'); // eslint-disable-line
 
     Git()
       .then((info) => {
-        spinner.text = 'Compiling report';
-
         if(debug) {
           fs.writeFileSync('build.json', JSON.stringify({
             git: info,
@@ -97,19 +87,21 @@ try {
           output: path.resolve(output) || process.cwd() + '/build'
         }, (error) => {
           if(error) {
-            return spinner.fail(`Compile has failed with the following error:\n${error}`);
+            return console.log(`Compile has failed with the following error:\n${error}`); // eslint-disable-line
           }
           const reportLocation = path.resolve((path.resolve(output) || process.cwd() + '/build'), 'index.html');
           const end = process.hrtime(start);
-          spinner.succeed(`Report compiled [${ms(((end[0] * 1e9) + end[1]) / 1e6)}]\nLocated at ${reportLocation}`);
+
+          console.log(`Report compiled [${ms(((end[0] * 1e9) + end[1]) / 1e6)}]\nLocated at ${reportLocation}`); // eslint-disable-line
+
           open(reportLocation, { wait: false });
         });
       })
       .catch((error) => {
-        spinner.fail(`Failed trying to get git information ${error}`)
+        console.log(`Failed trying to get git information ${error}`); // eslint-disable-line
       })
   });
 
 } catch (error) {
-  spinner.fail(`Something went really wrong ${error}`);
+  console.log(`Something went really wrong ${error}`); // eslint-disable-line
 }

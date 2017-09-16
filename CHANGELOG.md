@@ -1,3 +1,7 @@
+# 0.2.4 (09/16/2017)
+
+- generates a similar pipeline view in the console
+
 # 0.2.3 (09/13/2017)
 
 - adds arrow to show opened stages
