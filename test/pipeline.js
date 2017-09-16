@@ -80,7 +80,7 @@ test('pipeline', (t) => {
       t.equal(results[0].state, 'success');
 
       t.equal(results[1].state, 'fail');
-      t.equal(results[1].stages[0].output, '/bin/sh: alkdsjfa1: command not found\n');
+      t.ok(results[1].stages[0].output.indexOf('not found') > -1);
 
       t.equal(results[2].state, 'unknown');
       t.equal(results[2].stages[0].state, 'unknown');

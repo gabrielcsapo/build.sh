@@ -1,5 +1,12 @@
 # build.sh
 
+[![Build Status](https://travis-ci.org/gabrielcsapo/build.sh.svg?branch=master)](https://travis-ci.org/gabrielcsapo/build.sh)
+[![Dependency Status](https://david-dm.org/gabrielcsapo/build.sh.svg)](https://david-dm.org/gabrielcsapo/build.sh)
+[![devDependency Status](https://david-dm.org/gabrielcsapo/build.sh/dev-status.svg)](https://david-dm.org/gabrielcsapo/build.sh#info=devDependencies)
+[![Coverage Status](https://lcov-server.herokuapp.com/badge/github%2Ecom/gabrielcsapo/build.sh.svg)](https://lcov-server.herokuapp.com/coverage/github%2Ecom/gabrielcsapo/build.sh)
+[![npm](https://img.shields.io/npm/dt/build.sh.svg?maxAge=2592000)]()
+[![npm](https://img.shields.io/npm/dm/build.sh.svg?maxAge=2592000)]()
+
 > 🔨 run and visualize the build process
 
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
