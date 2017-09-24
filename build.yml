@@ -1,5 +1,9 @@
 output: ./docs/example
+env:
+  - FOO=bar
 pipeline:
+  foo:
+    - echo $FOO
   install:
     - npm --version
     - node --version

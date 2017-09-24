@@ -7,6 +7,7 @@ const fs   = require('fs');
 const yaml = require('js-yaml');
 const open = require('opn');
 const logUpdate = require('log-update');
+const qs = require('qs');
 
 const Git = require('../lib/git');
 const Compile = require('../lib/compile');
@@ -25,10 +26,18 @@ try {
   const pkg = require(path.resolve(process.cwd(), 'package.json'));
   const buildFile = fs.readFileSync(config, 'utf8');
   const doc = yaml.safeLoad(buildFile);
-  const { pipeline, output } = doc;
+  const { pipeline, output, env } = doc;
 
-  const events = Pipeline(pipeline);
+  if(env) {
+    env.forEach((e) => {
+      let q = qs.parse(e);
+      let k = Object.keys(q)[0];
+      process.env[k] = q[k];
+    });
+  }
+
   const start = process.hrtime();
+  const events = Pipeline(pipeline);
   let completed = [];
 
   events.on('stage:end', (stage) => {

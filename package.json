@@ -1,6 +1,6 @@
 {
   "name": "build.sh",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "🔨 run and visualize the build process",
   "repository": {
     "type": "https",
@@ -48,10 +48,10 @@
     "webpack": "^3.6.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.2.6",
-    "@storybook/react": "^3.2.8",
+    "@storybook/addon-actions": "^3.2.10",
+    "@storybook/react": "^3.2.10",
     "docdash": "^0.4.0",
-    "eslint": "^4.7.0",
+    "eslint": "^4.7.2",
     "eslint-plugin-react": "^7.3.0",
     "jsdoc": "^3.5.5",
     "pkg": "^4.2.4",

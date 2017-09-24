@@ -44,6 +44,8 @@ Options:
 > commit a `build.yml` file to your project root
 
 ```
+env:
+  - {key}={value}
 pipeline:
   {key}:
     - {command}
@@ -58,6 +60,8 @@ This build pipeline:
 
 ```yaml
 output: ./docs
+env:
+    - FOO=bar
 pipeline:
   install:
     - npm --version

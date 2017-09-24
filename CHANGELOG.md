@@ -1,3 +1,7 @@
+# 0.2.5 (09/23/2017)
+
+- adds env config to override process environment variables during build
+
 # 0.2.4 (09/16/2017)
 
 - generates a similar pipeline view in the console
