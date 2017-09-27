@@ -99,7 +99,11 @@ pipeline:
   test:
     - npm test
   docs:
-    - npm run generate-docs</code></pre><p>Will yield the following results:</p>
+    - npm run generate-docs</code></pre><blockquote>
+<p>there is also the ability to run parts of pipeline by specifying which ones to run for example <code>build install:npm,lint,coverage,test</code> will only run the nested npm install, lint, coverage and test scripts</p>
+</blockquote>
+<p><img src="./docs/subset.png" alt="subset.png"></p>
+<p>When running <code>build</code> with the above pipeline it will yield the following results:</p>
 <p><img src="./docs/success.png" alt="success.png"></p>
 <p>Sometimes things go as planned and certain build phases will fail and that will yield:</p>
 <p><img src="./docs/fail.png" alt="fail.png"></p>

@@ -1,3 +1,10 @@
+# 0.2.6 (09/26/2017)
+
+- fixes broken event emitter due to async
+- fixes issue with nested runs
+- allows the ability to run parts of the pipeline
+- updates to react 16.0.0, slims example build output from 898 KB to 343K
+
 # 0.2.5 (09/23/2017)
 
 - adds env config to override process environment variables during build

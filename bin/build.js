@@ -14,8 +14,15 @@ const Compile = require('../lib/compile');
 const Pipeline = require('../lib/pipeline');
 const { ms, renderAsciiPipe } = require('../lib/util');
 
+let refinedSteps = '';
+
 program
   .version(require('../package.json').version)
+  .arguments('<steps>')
+  .action(function (actions) {
+     // creates an array of steps allowed
+     refinedSteps = actions.split(',')
+  })
   .option('-c, --config [file]', 'the input file for the build pipeline to run', path.resolve(process.cwd(), 'build.yml'))
   .option('-d, --debug', 'outputs a debug file of the build process and data captured', false)
   .parse(process.argv);
@@ -37,7 +44,7 @@ try {
   }
 
   const start = process.hrtime();
-  const events = Pipeline(pipeline);
+  const events = Pipeline(pipeline, refinedSteps);
   let completed = [];
 
   events.on('stage:end', (stage) => {
@@ -50,7 +57,7 @@ try {
 
   events.on('end', (results) => {
     console.log('Capturing git information'); // eslint-disable-line
-
+    
     Git()
       .then((info) => {
         if(debug) {

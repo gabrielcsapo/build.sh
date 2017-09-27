@@ -79,7 +79,11 @@ pipeline:
     - npm run generate-docs
 ```
 
-Will yield the following results:
+> there is also the ability to run parts of pipeline by specifying which ones to run for example `build install:npm,lint,coverage,test` will only run the nested npm install, lint, coverage and test scripts
+
+![subset.png](./docs/subset.png)
+
+When running `build` with the above pipeline it will yield the following results:
 
 ![success.png](./docs/success.png)
 
