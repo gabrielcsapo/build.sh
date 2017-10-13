@@ -1,3 +1,7 @@
+# 0.2.7 (10/12/2017)
+
+- adds babel-minify-webpack-plugin which reduces build output from 345K to 263 KB
+
 # 0.2.6 (09/26/2017)
 
 - fixes broken event emitter due to async
