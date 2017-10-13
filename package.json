@@ -47,19 +47,20 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "shelljs": "^0.7.8",
-    "style-loader": "^0.18.2",
-    "webpack": "^3.6.0"
+    "style-loader": "^0.19.0",
+    "webpack": "^3.7.1"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.2.11",
-    "@storybook/react": "^3.2.11",
+    "@storybook/addon-actions": "^3.2.12",
+    "@storybook/react": "^3.2.12",
     "docdash": "^0.4.0",
-    "eslint": "^4.7.2",
+    "eslint": "^4.8.0",
     "eslint-plugin-react": "^7.4.0",
     "jsdoc": "^3.5.5",
-    "pkg": "^4.2.4",
+    "pkg": "^4.2.5",
     "tap": "^10.7.1",
-    "tape": "^4.8.0"
+    "tape": "^4.8.0",
+    "tryitout": "^0.3.4"
   },
   "pkg": {
     "scripts": [
