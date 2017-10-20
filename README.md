@@ -1,9 +1,9 @@
 # build.sh
 
 [![Build Status](https://travis-ci.org/gabrielcsapo/build.sh.svg?branch=master)](https://travis-ci.org/gabrielcsapo/build.sh)
-[![Dependency Status](https://david-dm.org/gabrielcsapo/build.sh.svg)](https://david-dm.org/gabrielcsapo/build.sh)
-[![devDependency Status](https://david-dm.org/gabrielcsapo/build.sh/dev-status.svg)](https://david-dm.org/gabrielcsapo/build.sh#info=devDependencies)
-[![Coverage Status](https://lcov-server.herokuapp.com/badge/github%2Ecom/gabrielcsapo/build.sh.svg)](https://lcov-server.herokuapp.com/coverage/github%2Ecom/gabrielcsapo/build.sh)
+[![Dependency Status](https://starbuck.gabrielcsapo.com/badge/github/gabrielcsapo/build.sh/status.svg)](https://starbuck.gabrielcsapo.com/github/gabrielcsapo/build.sh)
+[![devDependency Status](https://starbuck.gabrielcsapo.com/badge/github/gabrielcsapo/build.sh/dev-status.svg)](https://starbuck.gabrielcsapo.com/github/gabrielcsapo/build.sh#info=devDependencies)
+[![Coverage Status](https://lcov-server.gabrielcsapo.com/badge/github%2Ecom/gabrielcsapo/build.sh.svg)](https://lcov-server.gabrielcsapo.com/coverage/github%2Ecom/gabrielcsapo/build.sh)
 [![npm](https://img.shields.io/npm/dt/build.sh.svg?maxAge=2592000)]()
 [![npm](https://img.shields.io/npm/dm/build.sh.svg?maxAge=2592000)]()
 
