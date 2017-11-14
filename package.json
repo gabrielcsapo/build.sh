@@ -43,7 +43,7 @@
     "log-update": "^2.1.0",
     "opn": "^5.1.0",
     "prop-types": "^15.6.0",
-    "psychic-ui": "^1.0.8",
+    "psychic.css": "0.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "shelljs": "^0.7.8",
@@ -69,7 +69,7 @@
     ],
     "assets": [
       "src/**/*",
-      "node_modules/psychic-ui/dist/psychic-min.css"
+      "node_modules/psychic-css/dist/psychic-min.css"
     ],
     "targets": [
       "node8-macos-x64",
