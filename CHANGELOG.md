@@ -1,3 +1,8 @@
+# 0.2.8 (11/13/2017)
+
+- moves from psychic-ui to psychic.css (reduces bundle from 257 KB -> 239 KB *7%*)
+- updates dependencies
+
 # 0.2.7 (10/12/2017)
 
 - adds babel-minify-webpack-plugin which reduces build output from 345K to 263 KB

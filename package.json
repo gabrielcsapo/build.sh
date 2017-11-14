@@ -1,6 +1,6 @@
 {
   "name": "build.sh",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "🔨 run and visualize the build process",
   "repository": {
     "type": "https",
@@ -15,7 +15,7 @@
     "lint": "eslint .",
     "test": "tape test/**.js",
     "coverage": "tap test --coverage --coverage-report=lcov --no-browser",
-    "generate-docs": "jsdoc -c jsdoc.json",
+    "generate-docs": "tryitout && jsdoc -c jsdoc.json",
     "pack": "pkg bin/build.js -c package.json -o packed/build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o ./docs/storybook"
@@ -26,7 +26,7 @@
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-minify-webpack-plugin": "^0.2.0",
@@ -40,27 +40,27 @@
     "html-webpack-inline-source-plugin": "0.0.9",
     "html-webpack-plugin": "^2.30.1",
     "js-yaml": "^3.10.0",
-    "log-update": "^2.1.0",
+    "log-update": "^2.3.0",
     "opn": "^5.1.0",
     "prop-types": "^15.6.0",
     "psychic.css": "0.0.1",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
     "shelljs": "^0.7.8",
     "style-loader": "^0.19.0",
-    "webpack": "^3.7.1"
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.2.12",
-    "@storybook/react": "^3.2.12",
+    "@storybook/addon-actions": "^3.2.15",
+    "@storybook/react": "^3.2.15",
     "docdash": "^0.4.0",
-    "eslint": "^4.8.0",
+    "eslint": "^4.11.0",
     "eslint-plugin-react": "^7.4.0",
     "jsdoc": "^3.5.5",
-    "pkg": "^4.2.5",
-    "tap": "^10.7.1",
+    "pkg": "^4.2.6",
+    "tap": "^10.7.3",
     "tape": "^4.8.0",
-    "tryitout": "^0.3.4"
+    "tryitout": "^1.1.1"
   },
   "pkg": {
     "scripts": [
@@ -69,7 +69,7 @@
     ],
     "assets": [
       "src/**/*",
-      "node_modules/psychic-css/dist/psychic-min.css"
+      "node_modules/psychic.css/dist/psychic.min.css"
     ],
     "targets": [
       "node8-macos-x64",

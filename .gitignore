@@ -6,3 +6,4 @@ package-lock.json
 ./webpack.config.js
 build.json
 packed
+npm-debug.log

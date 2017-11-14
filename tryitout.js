@@ -15,11 +15,12 @@ module.exports = {
         </div>
       </div>
     `,
+    template: 'landing',
     options: {
       width: '100%'
     },
-    footer: {
-      author: 'Made with 🐒 by @gabrielcsapo',
-      website: 'http://www.gabrielcsapo.com'
-    }
+    output: './docs',
+    footer: `
+      <div class="text-black">Made with ☕️ by <a href="http://www.gabrielcsapo.com">@gabrielcsapo</a></div>
+    `
 };
