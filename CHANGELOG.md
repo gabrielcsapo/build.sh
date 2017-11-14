@@ -1,3 +1,7 @@
+# 0.2.9 (11/13/2017)
+
+- adds qs module to dependencies
+
 # 0.2.8 (11/13/2017)
 
 - moves from psychic-ui to psychic.css (reduces bundle from 257 KB -> 239 KB *7%*)

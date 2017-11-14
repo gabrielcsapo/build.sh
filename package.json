@@ -1,6 +1,6 @@
 {
   "name": "build.sh",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "🔨 run and visualize the build process",
   "repository": {
     "type": "https",
@@ -44,6 +44,7 @@
     "opn": "^5.1.0",
     "prop-types": "^15.6.0",
     "psychic.css": "0.0.1",
+    "qs": "^6.5.1",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "shelljs": "^0.7.8",
