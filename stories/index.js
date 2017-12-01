@@ -3,9 +3,16 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
+import Report from '../src/index';
 import Icon from '../src/icon';
 import Pipeline from '../src/pipeline';
-import { Stages } from '../src/stage';
+import Stages from '../src/stages';
+
+storiesOf('Report', module)
+  .add('example', () => {
+    const pipeline = require('./pipeline.json');
+    return <Report {...pipeline} />
+  })
 
 storiesOf('Icon', module)
   .add('fail', () => {
@@ -61,7 +68,7 @@ storiesOf('Stages', module)
   .add('success', () => {
     const stages = [
         {
-            "name": "npm run coverage",
+            "command": "npm run coverage",
             "state": "success",
             "output": `\n> build.sh@0.1.0 coverage /Users/gabrielcsapo/Documents/build.sh\n> tap test --coverage --coverage-report=lcov --no-browser \n\nTAP version 13\n# Subtest: test/git.js\n    # git\n    # should fail because directory is not a git directory\n    ok 1 error is not undefined\n    ok 2 should be truthy\n    # should return the correct data\n    # should fail when no remote is present\n    Initialized empty Git repository in /Users/gabrielcsapo/Documents/build.sh/test/fixtures/sample-module/.git/\n    [master (root-commit) 14fbfbd] testtest\n     1 file changed, 1 insertion(+)\n     create mode 100644 README.md\n    ok 3 should be equivalent\n    # should cleanup git directory\n    ok 4 should be equal\n    \n    1..4\n    # tests 4\n    # pass  4\n    \n    # ok\n    \nok 1 - test/git.js # time=1066.821ms\n\n# Subtest: test/index.js\n    # build.sh\n    \n    1..0\n    # tests 0\n    # pass  0\n    \n    # ok\n    \nok 2 - test/index.js # SKIP\n\n1..2\n# skip: 1\n# time=1297.796ms\n`,
             "id": "1504231277790k1l211gqkc",
@@ -73,7 +80,8 @@ storiesOf('Stages', module)
   .add('fail', () => {
     const stages = [
         {
-            "name": "npm run coverage",
+            "type": "command",
+            "command": "npm run coverage",
             "state": "fail",
             "output": `\n> build.sh@0.1.0 coverage /Users/gabrielcsapo/Documents/build.sh\n> tap test --coverage --coverage-report=lcov --no-browser \n\nTAP version 13\n# Subtest: test/git.js\n    # git\n    # should fail because directory is not a git directory\n    ok 1 error is not undefined\n    ok 2 should be truthy\n    # should return the correct data\n    # should fail when no remote is present\n    Initialized empty Git repository in /Users/gabrielcsapo/Documents/build.sh/test/fixtures/sample-module/.git/\n    [master (root-commit) 14fbfbd] testtest\n     1 file changed, 1 insertion(+)\n     create mode 100644 README.md\n    ok 3 should be equivalent\n    # should cleanup git directory\n    ok 4 should be equal\n    \n    1..4\n    # tests 4\n    # pass  4\n    \n    # ok\n    \nok 1 - test/git.js # time=1066.821ms\n\n# Subtest: test/index.js\n    # build.sh\n    \n    1..0\n    # tests 0\n    # pass  0\n    \n    # ok\n    \nok 2 - test/index.js # SKIP\n\n1..2\n# skip: 1\n# time=1297.796ms\n`,
             "id": "1504231277790k1l211gqkc",
@@ -85,7 +93,8 @@ storiesOf('Stages', module)
   .add('unknown', () => {
     const stages = [
         {
-            "name": "npm run coverage",
+            "type": "command",
+            "command": "npm run coverage",
             "state": "unknown",
             "output": `\n> build.sh@0.1.0 coverage /Users/gabrielcsapo/Documents/build.sh\n> tap test --coverage --coverage-report=lcov --no-browser \n\nTAP version 13\n# Subtest: test/git.js\n    # git\n    # should fail because directory is not a git directory\n    ok 1 error is not undefined\n    ok 2 should be truthy\n    # should return the correct data\n    # should fail when no remote is present\n    Initialized empty Git repository in /Users/gabrielcsapo/Documents/build.sh/test/fixtures/sample-module/.git/\n    [master (root-commit) 14fbfbd] testtest\n     1 file changed, 1 insertion(+)\n     create mode 100644 README.md\n    ok 3 should be equivalent\n    # should cleanup git directory\n    ok 4 should be equal\n    \n    1..4\n    # tests 4\n    # pass  4\n    \n    # ok\n    \nok 1 - test/git.js # time=1066.821ms\n\n# Subtest: test/index.js\n    # build.sh\n    \n    1..0\n    # tests 0\n    # pass  0\n    \n    # ok\n    \nok 2 - test/index.js # SKIP\n\n1..2\n# skip: 1\n# time=1297.796ms\n`,
             "id": "1504231277790k1l211gqkc",
@@ -97,21 +106,24 @@ storiesOf('Stages', module)
   .add('mixed', () => {
     const stages = [
         {
-            "name": "npm run coverage",
+            "type": "command",
+            "command": "npm run coverage",
             "state": "success",
             "output": `\n> build.sh@0.1.0 coverage /Users/gabrielcsapo/Documents/build.sh\n> tap test --coverage --coverage-report=lcov --no-browser \n\nTAP version 13\n# Subtest: test/git.js\n    # git\n    # should fail because directory is not a git directory\n    ok 1 error is not undefined\n    ok 2 should be truthy\n    # should return the correct data\n    # should fail when no remote is present\n    Initialized empty Git repository in /Users/gabrielcsapo/Documents/build.sh/test/fixtures/sample-module/.git/\n    [master (root-commit) 14fbfbd] testtest\n     1 file changed, 1 insertion(+)\n     create mode 100644 README.md\n    ok 3 should be equivalent\n    # should cleanup git directory\n    ok 4 should be equal\n    \n    1..4\n    # tests 4\n    # pass  4\n    \n    # ok\n    \nok 1 - test/git.js # time=1066.821ms\n\n# Subtest: test/index.js\n    # build.sh\n    \n    1..0\n    # tests 0\n    # pass  0\n    \n    # ok\n    \nok 2 - test/index.js # SKIP\n\n1..2\n# skip: 1\n# time=1297.796ms\n`,
             "id": "1504231277790k1l211gqkc",
             "time": 2000
         },
         {
-            "name": "npm build",
+            "type": "command",
+            "command": "npm build",
             "state": "fail",
             "output": "build not a command",
             "id": "1504231277790k15d11gqkc",
             "time": 300
         },
         {
-            "name": "neverrun -r",
+            "type": "command",
+            "command": "neverrun -r",
             "state": "unknown",
             "output": "\n",
             "id": "1504231277790k15d11ge3kc",
@@ -126,9 +138,10 @@ storiesOf('Pipeline', module)
     const pipeline = [
         {
             "name": "install",
-            "children": [],
-            "stages": [
+            "type": "pipeline",
+            "children": [
                 {
+                    "type": "command",
                     "name": "npm --version",
                     "state": "success",
                     "output": "",
@@ -136,6 +149,7 @@ storiesOf('Pipeline', module)
                     "time": 210.798482
                 },
                 {
+                    "type": "command",
                     "name": "node --version",
                     "state": "success",
                     "output": "",
@@ -148,8 +162,8 @@ storiesOf('Pipeline', module)
         },
         {
             "name": "lint",
-            "children": [],
-            "stages": [
+            "type": "pipeline",
+            "children": [
                 {
                     "name": "npm run lint",
                     "state": "success",
@@ -169,34 +183,36 @@ storiesOf('Pipeline', module)
     const pipeline = [
         {
             "name": "install",
+            "type": "pipeline",
             "children": [
                 {
                     "name": "npm",
-                    "children": [],
-                    "stages": [
-                        {
-                            "name": "npm install",
-                            "state": "success",
-                            "output": "",
-                            "id": "1504231271762htzd46674y",
-                            "time": 4905.449849
-                        },
-                        {
-                            "name": "ls -lh node_modules",
-                            "state": "success",
-                            "output": "",
-                            "id": "1504231276667kqswthkcog",
-                            "time": 30.488045
-                        }
+                    "type": "pipeline",
+                    "children": [
+                      {
+                          "name": "npm install",
+                          "state": "success",
+                          "type": "command",
+                          "output": "",
+                          "id": "1504231271762htzd46674y",
+                          "time": 4905.449849
+                      },
+                      {
+                          "name": "ls -lh node_modules",
+                          "state": "success",
+                          "type": "command",
+                          "output": "",
+                          "id": "1504231276667kqswthkcog",
+                          "time": 30.488045
+                      }
                     ],
                     "state": "success",
                     "id": "1504231271762vh8o4n9fa6"
-                }
-            ],
-            "stages": [
+                },
                 {
                     "name": "npm --version",
                     "state": "success",
+                    "type": "command",
                     "output": "",
                     "id": "15042312715401yk1r04vrr",
                     "time": 210.798482
@@ -204,6 +220,7 @@ storiesOf('Pipeline', module)
                 {
                     "name": "node --version",
                     "state": "success",
+                    "type": "command",
                     "output": "",
                     "id": "1504231271751358v763zfp",
                     "time": 10.283938
@@ -214,13 +231,15 @@ storiesOf('Pipeline', module)
         },
         {
             "name": "build",
+            "type": "pipeline",
             "children": [
                 {
                     "name": "scripts",
-                    "children": [],
-                    "stages": [
+                    "type": "pipeline",
+                    "children": [
                         {
                             "name": "npm run build",
+                            "type": "command",
                             "state": "fail",
                             "output": "",
                             "id": "15674231271762htzd46674y",
@@ -229,11 +248,10 @@ storiesOf('Pipeline', module)
                     ],
                     "state": "fail",
                     "id": "15031231271762vh8o4n9fa6"
-                }
-            ],
-            "stages": [
+                },
                 {
                     "name": "npm --version",
+                    "type": "command",
                     "state": "success",
                     "output": "",
                     "id": "15042312715as01yk1r04vrr",
@@ -241,6 +259,7 @@ storiesOf('Pipeline', module)
                 },
                 {
                     "name": "node --version",
+                    "type": "command",
                     "state": "success",
                     "output": "",
                     "id": "15042312715451358v763zfp",
@@ -252,10 +271,11 @@ storiesOf('Pipeline', module)
         },
         {
             "name": "lint",
-            "children": [],
-            "stages": [
+            "type": "pipeline",
+            "children": [
                 {
                     "name": "npm run lint",
+                    "type": "command",
                     "state": "unknown",
                     "output": "",
                     "id": "1504231276698ds79fa3vld",
@@ -272,13 +292,15 @@ storiesOf('Pipeline', module)
     const pipeline = [
         {
             "name": "install",
+            "type": "pipeline",
             "children": [
                 {
                     "name": "npm",
-                    "children": [],
-                    "stages": [
+                    "type": "pipeline",
+                    "children": [
                         {
                             "name": "npm install",
+                            "type": "command",
                             "state": "success",
                             "output": "",
                             "id": "1504231271762htzd46674y",
@@ -286,6 +308,7 @@ storiesOf('Pipeline', module)
                         },
                         {
                             "name": "ls -lh node_modules",
+                            "type": "command",
                             "state": "success",
                             "output": "",
                             "id": "1504231276667kqswthkcog",
@@ -294,11 +317,10 @@ storiesOf('Pipeline', module)
                     ],
                     "state": "success",
                     "id": "1504231271762vh8o4n9fa6"
-                }
-            ],
-            "stages": [
+                },
                 {
                     "name": "npm --version",
+                    "type": "command",
                     "state": "success",
                     "output": "",
                     "id": "15042312715401yk1r04vrr",
@@ -306,6 +328,7 @@ storiesOf('Pipeline', module)
                 },
                 {
                     "name": "node --version",
+                    "type": "command",
                     "state": "success",
                     "output": "",
                     "id": "1504231271751358v763zfp",
@@ -317,10 +340,11 @@ storiesOf('Pipeline', module)
         },
         {
             "name": "lint",
-            "children": [],
-            "stages": [
+            "type": "pipeline",
+            "children": [
                 {
                     "name": "npm run lint",
+                    "type": "command",
                     "state": "success",
                     "output": "",
                     "id": "1504231276698ds79fa3vld",

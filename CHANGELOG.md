@@ -1,3 +1,23 @@
+# 1.0.0 (11/29/2017)
+
+- fixes pipeline to find times recursively
+  - cleans up duplicate code
+- handles if git is not present
+- removes the dependency on having a package.json to get name and description
+- removes the qs module uses native querystring
+- cleans up stages markup to have the title inlined
+- adds report tab to show report in JSON
+- adds times to all pipeline nodes
+  - the end now shows a cumulative time
+- fixes bug if output is not defined in config
+- config is now the pipeline parsed
+- adds an `output` flag to the CLI that sets the output of the report
+- adds an `browser` flag to CLI that allows setting browser to be configured to be open or not
+- abstracts execution logic from binary and tests it separately
+- cleans up and rearranges UI
+- adds story to storybook stories to reflect a full report view
+- removes `babel-minify-webpack-plugin`
+
 # 0.2.9 (11/13/2017)
 
 - adds qs module to dependencies

@@ -33,44 +33,20 @@ test('util', (t) => {
     t.plan(2);
 
     t.test('successful pipeline', (t) => {
-      const pipe = renderAsciiPipe({
-          "install": [
-              "npm --version",
-              "node --version",
-              {
-                  "npm": [
-                      "ls -lh node_modules"
-                  ]
-              }
-          ],
-          "lint": [
-            "echo 'lint'"
-          ],
-          "coverage": [
-            "echo 'coverage'",
-            "sleep 1"
-          ],
-          "test": [
-            "echo 'test'",
-            "sleep .5"
-          ],
-          "docs": [
-            "echo 'docs'"
-          ]
-      }, [{
-        name: 'install',
+      const pipe = renderAsciiPipe(["install", "lint", "coverage", "test", "docs"], [{
+        path: 'install',
         state: 'success'
       },{
-        name: 'lint',
+        path: 'lint',
         state: 'success'
       },{
-        name: 'coverage',
+        path: 'coverage',
         state: 'success'
       },{
-        name: 'test',
+        path: 'test',
         state: 'success'
       },{
-        name: 'docs',
+        path: 'docs',
         state: 'success'
       }]);
 
@@ -79,44 +55,20 @@ test('util', (t) => {
     });
 
     t.test('mixed pipeline', (t) => {
-      const pipe = renderAsciiPipe({
-          "install": [
-              "npm --version",
-              "node --version",
-              {
-                  "npm": [
-                      "ls -lh node_modules"
-                  ]
-              }
-          ],
-          "lint": [
-            "echo 'lint'"
-          ],
-          "coverage": [
-            "echo 'coverage'",
-            "sleep 1"
-          ],
-          "test": [
-            "echo 'test'",
-            "sleep .5"
-          ],
-          "docs": [
-            "echo 'docs'"
-          ]
-      }, [{
-        name: 'install',
+      const pipe = renderAsciiPipe(["install", "lint", "coverage", "test", "docs"], [{
+        path: 'install',
         state: 'success'
       },{
-        name: 'lint',
+        path: 'lint',
         state: 'fail'
       },{
-        name: 'coverage',
+        path: 'coverage',
         state: 'unknown'
       },{
-        name: 'test',
+        path: 'test',
         state: 'unknown'
       },{
-        name: 'docs',
+        path: 'docs',
         state: 'unknown'
       }]);
 

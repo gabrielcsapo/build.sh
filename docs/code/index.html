@@ -2,31 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>JSDoc: Home</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
+
 <body>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_compile.html">lib/compile</a></li><li><a href="module-lib_git.html">lib/git</a></li><li><a href="module-lib_pipeline.html">lib/pipeline</a></li><li><a href="module-lib_util.html">lib/util</a><ul class='methods'><li data-type='method'><a href="module-lib_util.html#.renderAsciiPipe">renderAsciiPipe</a></li><li data-type='method'><a href="module-lib_util.html#~ms">ms</a></li></ul></li></ul>
-</nav>
-
 <div id="main">
-    
+
+    <h1 class="page-title">Home</h1>
 
     
 
@@ -35,6 +26,10 @@
     
 
 
+    <h3> </h3>
+
+
+
 
 
 
@@ -45,7 +40,9 @@
     
 
 
-    <section class="readme">
+
+
+    <section>
         <article><h1>build.sh</h1><p><a href="https://travis-ci.org/gabrielcsapo/build.sh"><img src="https://travis-ci.org/gabrielcsapo/build.sh.svg?branch=master" alt="Build Status"></a>
 <a href="https://starbuck.gabrielcsapo.com/github/gabrielcsapo/build.sh"><img src="https://starbuck.gabrielcsapo.com/badge/github/gabrielcsapo/build.sh/status.svg" alt="Dependency Status"></a>
 <a href="https://starbuck.gabrielcsapo.com/github/gabrielcsapo/build.sh#info=devDependencies"><img src="https://starbuck.gabrielcsapo.com/badge/github/gabrielcsapo/build.sh/dev-status.svg" alt="devDependency Status"></a>
@@ -63,15 +60,17 @@
 </ul>
 <!-- /TOC -->
 <h2>Installation</h2><p>This module can be installed via npm, or for those who do not have node on their machines can use the packed binary found <a href="https://github.com/gabrielcsapo/build.sh/releases">here</a> which can downloaded to your computer and run as a executable.</p>
-<pre class="prettyprint source"><code>npm install build.sh -g</code></pre><h2>Usage</h2><pre class="prettyprint source"><code>Usage: build [options]
+<pre class="prettyprint source"><code>npm install build.sh -g</code></pre><h2>Usage</h2><pre class="prettyprint source"><code>Usage: build [options] &lt;steps>
 
 
 Options:
 
-  -V, --version        output the version number
-  -c, --config [file]  the input file for the build pipeline to run
-  -d, --debug          outputs a debug file of the build process and data captured
-  -h, --help           output usage information</code></pre><h2>How To</h2><blockquote>
+  -V, --version          output the version number
+  -c, --config [file]    the input file for the build pipeline to run (default: /Users/gabrielcsapo/Documents/build.sh/build.yml)
+  -d, --debug            outputs a debug file of the build process and data captured
+  -o, --output [output]  set the output path for the build artifact
+  -b, --browser          doesn't open browser
+  -h, --help             output usage information</code></pre><h2>How To</h2><blockquote>
 <p>commit a <code>build.yml</code> file to your project root</p>
 </blockquote>
 <pre class="prettyprint source"><code>env:
@@ -100,7 +99,7 @@ pipeline:
     - npm test
   docs:
     - npm run generate-docs</code></pre><blockquote>
-<p>there is also the ability to run parts of pipeline by specifying which ones to run for example <code>build install:npm,lint,coverage,test</code> will only run the nested npm install, lint, coverage and test scripts</p>
+<p>there is also the ability to run parts of pipeline by specifying which ones to run for example <code>build lint,coverage,test</code> will only run the nested npm install, lint, coverage and test scripts</p>
 </blockquote>
 <p><img src="./docs/subset.png" alt="subset.png"></p>
 <p>When running <code>build</code> with the above pipeline it will yield the following results:</p>
@@ -109,8 +108,10 @@ pipeline:
 <p><img src="./docs/fail.png" alt="fail.png"></p>
 <p>An important factor when dealing with build pipelines is the persistence of environment variables and git information which is recorded and accessible via the <code>Environment</code> tab:</p>
 <p><img src="./docs/environment.png" alt="environment.png"></p>
-<p>If the build report was ran and built using <code>build.sh</code> it will also record the yaml file that it ran with under the <code>Config</code> tab.</p>
-<p><img src="./docs/config.png" alt="config.png"></p></article>
+<p>If the build report was ran and built using <code>build.sh</code> it will also record the yaml file that it ran with under the <code>Config</code> tab:</p>
+<p><img src="./docs/config.png" alt="config.png"></p>
+<p>To view the raw build data simply navigate to the <code>Report</code> tab and you will get a view similar to this:</p>
+<p><img src="./docs/report.png" alt="report.png"></p></article>
     </section>
 
 
@@ -120,13 +121,17 @@ pipeline:
 
 </div>
 
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_util.html">lib/util</a></li></ul><h3>Classes</h3><ul><li><a href="Command.html">Command</a></li><li><a href="Compile.html">Compile</a></li><li><a href="Git.html">Git</a></li><li><a href="Pipeline.html">Pipeline</a></li></ul>
+</nav>
+
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 </footer>
 
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>

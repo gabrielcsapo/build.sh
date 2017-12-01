@@ -89,6 +89,7 @@ export class Pipeline extends React.Component {
             name: 'Start',
             id: -1,
             isPlaceholder: true,
+            time: 0,
             key: 'start-node',
             type: 'start',
         };
@@ -97,6 +98,7 @@ export class Pipeline extends React.Component {
             x: 0,
             y: 0,
             name: 'End',
+            time: this.getTime(newStages),
             id: -2,
             isPlaceholder: true,
             key: 'end-node',
@@ -145,7 +147,7 @@ export class Pipeline extends React.Component {
 
         for (const topStage of topLevelStages) {
             const stagesForColumn =
-                topStage.children && topStage.children.length > 0 ? [topStage].concat(topStage.children) : [topStage];
+                [topStage].concat(topStage.children.filter((child) => child.type == 'pipeline'));
 
             nodeColumns.push({
                 topStage,
@@ -320,25 +322,7 @@ export class Pipeline extends React.Component {
             classNames.push('selected');
         }
 
-        function getTime(stage) {
-          let time = 0;
-
-          if(stage.children) {
-            stage.children.forEach((child) => {
-              time += getTime(child);
-            });
-          }
-
-          if(stage.stages) {
-            time += stage.stages.map((s) => {
-              return s.time || 0;
-            }).reduce((a, b) => a + b, 0)
-          }
-
-          return time;
-        }
-
-        const time = details.stage ? getTime(details.stage) : 0
+        const time = details.stage ? this.getTime(details.stage) : 0
 
         return <div className={classNames.join(' ')} style={style} key={details.key}>
           {details.text}
@@ -347,9 +331,27 @@ export class Pipeline extends React.Component {
               { ms(time) }
             </small>
           : ''}
+          { details.node.isPlaceholder && details.node.time !== undefined ?
+            <small style={{ display: 'block' }}>
+              { ms(details.node.time) }
+            </small>
+          : ''}
         </div>;
     }
 
+    getTime(stage) {
+      if(Array.isArray(stage)) {
+        return stage.map((s) => {
+          return this.getTime(s);
+        }).reduce((a, b) => a + b, 0);
+      }
+      return stage.children.map((s) => {
+        if(s.type === 'pipeline') {
+          return this.getTime(s);
+        }
+        return s.time || 0;
+      }).reduce((a, b) => a + b, 0)
+    }
     /**
      * Generate the Component for a small label
      */
@@ -385,25 +387,7 @@ export class Pipeline extends React.Component {
             classNames.push('selected');
         }
 
-        function getTime(stage) {
-          let time = 0;
-
-          if(stage.children) {
-            stage.children.forEach((child) => {
-              time += getTime(child);
-            });
-          }
-
-          if(stage.stages) {
-            time += stage.stages.map((s) => {
-              return s.time || 0;
-            }).reduce((a, b) => a + b, 0)
-          }
-
-          return time;
-        }
-
-        const time = details.stage ? getTime(details.stage) : 0
+        const time = details.stage ? this.getTime(details.stage) : 0
 
         return (
             <div className={classNames.join(' ')} style={style} key={details.key}>

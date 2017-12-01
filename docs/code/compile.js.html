@@ -2,33 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>compile.js - Documentation</title>
+    <title>JSDoc: Source: compile.js</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
+
 <body>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_compile.html">lib/compile</a></li><li><a href="module-lib_git.html">lib/git</a></li><li><a href="module-lib_pipeline.html">lib/pipeline</a></li><li><a href="module-lib_util.html">lib/util</a><ul class='methods'><li data-type='method'><a href="module-lib_util.html#.renderAsciiPipe">renderAsciiPipe</a></li><li data-type='method'><a href="module-lib_util.html#~ms">ms</a></li></ul></li></ul>
-</nav>
-
 <div id="main">
-    
-    <h1 class="page-title">compile.js</h1>
-    
+
+    <h1 class="page-title">Source: compile.js</h1>
 
     
 
@@ -37,77 +26,75 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @module lib/compile
- */
-
-const webpack = require('webpack');
+            <pre class="prettyprint source linenums"><code>const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 /**
  * compiles the given build configuration to a single html report
+ * @class Compile
  * @param  {Object}   options  - contains the necessary options for compile
  * @param  {String}   options.output  - the directory that the report will be built in
  * @param  {Object}   options.config  - the build configuration object create by Pipeline
- * @param  {Function} callback - function to call when compile has either failed or completed
  */
-module.exports = function compile({ output, config }, callback) {
-  return webpack({
-    entry: path.resolve(__dirname, '..', 'src', 'index.js'),
-    output: {
-      path: output,
-      filename: "build.js"
-    },
-    context: __dirname,
-    module: {
-      loaders: [{
-          test: /\.css$/,
-          loaders: ['style-loader', 'css-loader']
-        },
-        {
-          test: /.jsx?$/,
-          loader: 'babel-loader',
-          exclude: /node_modules(?!\/tryitout)/,
-          query: {
-            presets: ['es2015', 'react']
-          }
-        },
-      ],
-    },
-    resolve: {
-      modules: [path.resolve(__dirname, 'node_modules'), 'node_modules']
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        inlineSource: '.(js|css)$',
-        template: path.resolve(__dirname, '..', 'src', 'template.html')
-      }),
-      new HtmlWebpackInlineSourcePlugin(),
-      new webpack.DefinePlugin({
-        'process.env': {
-          'NODE_ENV': JSON.stringify('production')
-        },
-        config: JSON.stringify(config)
-      }),
-      new MinifyPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.optimize.AggressiveMergingPlugin()
-    ]
-  }, function(err, stats) {
-    if (stats.compilation.errors &amp;&amp; stats.compilation.errors.length > 0) {
-      return callback(stats.compilation.errors);
-    } // eslint-disable-line
-    if (err) {
-      return callback(err);
-    }
-    fs.unlinkSync(path.resolve(output, 'build.js'));
-    return callback();
+function Compile({ output, config }) {
+  return new Promise(function(resolve, reject) {
+    webpack({
+      entry: path.resolve(__dirname, '..', 'src', 'index.js'),
+      output: {
+        path: output,
+        filename: "build.js"
+      },
+      context: __dirname,
+      module: {
+        loaders: [{
+            test: /\.css$/,
+            loaders: ['style-loader', 'css-loader']
+          },
+          {
+            test: /.jsx?$/,
+            loader: 'babel-loader',
+            exclude: /node_modules(?!\/build.sh)/,
+            query: {
+              presets: ['env', 'react']
+            }
+          },
+        ],
+      },
+      resolve: {
+        modules: [path.resolve(__dirname, 'node_modules'), 'node_modules']
+      },
+      plugins: [
+        new HtmlWebpackPlugin({
+          inlineSource: '.(js|css)$',
+          template: path.resolve(__dirname, '..', 'src', 'template.html')
+        }),
+        new HtmlWebpackInlineSourcePlugin(),
+        new webpack.DefinePlugin({
+          'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+          },
+          config: JSON.stringify(config)
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin()
+      ]
+    }, function(err, stats) {
+      if (stats.compilation.errors &amp;&amp; stats.compilation.errors.length > 0) {
+        return reject(stats.compilation.errors);
+      } // eslint-disable-line
+      if (err) {
+        return reject(err);
+      }
+      fs.unlinkSync(path.resolve(output, 'build.js'));
+      return resolve();
+    });
   });
 }
+
+module.exports = Compile;
 </code></pre>
         </article>
     </section>
@@ -117,13 +104,17 @@ module.exports = function compile({ output, config }, callback) {
 
 </div>
 
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-lib_util.html">lib/util</a></li></ul><h3>Classes</h3><ul><li><a href="Command.html">Command</a></li><li><a href="Compile.html">Compile</a></li><li><a href="Git.html">Git</a></li><li><a href="Pipeline.html">Pipeline</a></li></ul>
+</nav>
+
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 </footer>
 
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>

@@ -21,6 +21,6 @@ module.exports = {
     },
     output: './docs',
     footer: `
-      <div class="text-black">Made with ☕️ by <a href="http://www.gabrielcsapo.com">@gabrielcsapo</a></div>
+      <div class="text-black">Made with ☕️ by <a href="https://www.gabrielcsapo.com">@gabrielcsapo</a></div>
     `
 };

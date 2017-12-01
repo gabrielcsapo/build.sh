@@ -3,11 +3,11 @@ const test = require('tape');
 const Pipeline = require('../lib/pipeline');
 
 test('pipeline', (t) => {
-  t.plan(5);
+  t.plan(2);
 
   t.test('should run sequential tasks', (t) => {
     let events = [];
-    const p = Pipeline({
+    const p = new Pipeline({
         "stage1": [
           "echo 'hello world'",
           "echo 'second task'"
@@ -17,35 +17,30 @@ test('pipeline', (t) => {
         ]
     });
 
-    p.on('stage:start', (stage) => {
-      events.push(stage);
+    p.events.on('start', (stage) => {
+      events.push(stage.name);
     });
 
-    p.on('stage:start:command', (stage, command) => {
-      events.push(`${stage}${command}`);
-    });
+    p.run(() => {
+      const results = p.getReport();
 
-    p.on('error', (error) => {
-      t.fail(error);
-    });
+      t.deepEqual(events, [ 'stage1', 'stage2' ]);
 
-    p.on('end', (results) => {
-      t.deepEqual(events, [ 'stage1', 'stage1echo \'hello world\'', 'stage1echo \'second task\'', 'stage2', 'stage2ls -lh' ]);
-      t.equal(results[0].name, 'stage1');
-      t.equal(results[0].state, 'success');
-      t.equal(results[0].stages.length, 2)
+      t.equal(results.children[0].name, 'stage1');
+      t.equal(results.children[0].state, 'success');
+      t.equal(results.children[0].children.length, 2)
 
-      t.equal(results[0].stages[0].output, 'hello world\n');
-      t.equal(results[0].stages[0].state, 'success');
-      t.ok(results[0].stages[0].time);
+      t.equal(results.children[0].children[0].output, 'hello world\n');
+      t.equal(results.children[0].children[0].state, 'success');
+      t.ok(results.children[0].children[0].time);
 
-      t.equal(results[0].stages[1].output, 'second task\n');
-      t.equal(results[0].stages[1].state, 'success');
-      t.ok(results[0].stages[1].time);
+      t.equal(results.children[0].children[1].output, 'second task\n');
+      t.equal(results.children[0].children[1].state, 'success');
+      t.ok(results.children[0].children[1].time);
 
-      t.equal(results[1].name, 'stage2');
-      t.equal(results[1].state, 'success');
-      t.equal(results[1].stages.length, 1)
+      t.equal(results.children[1].name, 'stage2');
+      t.equal(results.children[1].state, 'success');
+      t.equal(results.children[1].children.length, 1)
 
       t.end();
     });
@@ -53,7 +48,7 @@ test('pipeline', (t) => {
 
   t.test('should run a subset of sequential tasks', (t) => {
     let events = [];
-    const p = Pipeline({
+    const p = new Pipeline({
         "stage1": [
           "echo 'hello world'",
           "echo 'second task'"
@@ -61,187 +56,31 @@ test('pipeline', (t) => {
         "stage2": [
           "ls -lh"
         ]
-    }, ["stage2"]);
-
-    p.on('stage:start', (stage) => {
-      events.push(stage);
     });
 
-    p.on('stage:start:command', (stage, command) => {
-      events.push(`${stage}${command}`);
+    p.events.on('end', (stage) => {
+      events.push(stage.name);
     });
 
-    p.on('error', (error) => {
-      t.fail(error);
-    });
+    p.run(() => {
+      const results = p.getReport();
+      
+      t.deepEqual(events, [ 'stage1' ]);
 
-    p.on('end', (results) => {
-      t.equal(results.length, 1);
+      t.equal(results.children[0].name, 'stage1');
+      t.equal(results.children[0].state, 'success');
+      t.equal(results.children[0].children.length, 2);
 
-      t.equal(results[0].name, 'stage2');
-      t.equal(results[0].state, 'success');
-      t.equal(results[0].stages.length, 1);
+      t.equal(results.children[0].children[0].output, 'hello world\n');
+      t.equal(results.children[0].children[0].state, 'success');
+      t.ok(results.children[0].children[0].time);
 
-      t.ok(results[0].stages[0].name, 'ls -lh');
-      t.ok(results[0].stages[0].name, 'success');
-      t.ok(results[0].stages[0].output);
-      t.ok(results[0].stages[0].time);
+      t.equal(results.children[0].children[1].output, 'second task\n');
+      t.equal(results.children[0].children[1].state, 'success');
+      t.ok(results.children[0].children[1].time);
 
       t.end();
-    });
-  });
-
-  t.test('should run a main stage and subset of sequential nested tasks', (t) => {
-    let events = [];
-    const p = Pipeline({
-        "stage1": [
-          "echo 'hello world'",
-          "echo 'second task'",
-          {
-            "sub": [ 'ls', 'ls -lhag' ],
-            "sub1": [ 'ls -lha' ]
-          }
-        ],
-        "stage2": [
-          "ls -lh",
-          {
-            "sub": [ 'ls', 'ls -lhag' ],
-            "sub1": [ 'ls -lha' ]
-          }
-        ]
-    }, ["stage1", "stage1:sub", "stage2:sub1"]);
-
-    p.on('stage:start', (stage) => {
-      events.push(stage);
-    });
-
-    p.on('stage:start:command', (stage, command) => {
-      events.push(`${stage}${command}`);
-    });
-
-    p.on('error', (error) => {
-      t.fail(error);
-    });
-
-    p.on('end', (results) => {
-      t.equal(results[0].name, "stage1");
-      t.equal(results[0].state, "success");
-      t.equal(results[0].children.length, 1);
-      t.equal(results[0].children[0].name, "sub");
-      t.equal(results[0].children[0].children.length, 0);
-      t.equal(results[0].children[0].stages.length, 2);
-      t.equal(results[0].children[0].state, "success");
-
-      t.equal(results[0].stages.length, 2);
-      t.equal(results[0].stages[0].name, "echo 'hello world'");
-      t.equal(results[0].stages[0].state, "success");
-      t.equal(results[0].stages[0].output, "hello world\n");
-      t.equal(results[0].stages[1].name, "echo 'second task'");
-      t.equal(results[0].stages[1].state, "success");
-      t.equal(results[0].stages[1].output, "second task\n");
-
-
-      t.equal(results[1].name, "stage2");
-      t.equal(results[1].state, "unknown");
-      t.equal(results[1].children.length, 2);
-      t.equal(results[1].children[0].name, "sub");
-      t.equal(results[1].children[0].children.length, 0);
-      t.equal(results[1].children[0].stages.length, 0);
-      t.equal(results[1].children[0].state, "unknown");
-
-      t.equal(results[1].children[1].name, "sub1");
-      t.equal(results[1].children[1].children.length, 0);
-      t.equal(results[1].children[1].stages.length, 1);
-      t.equal(results[1].children[1].state, "success");
-      t.equal(results[1].stages.length, 0);
-
-      t.end();
-    });
-  });
-
-  t.test('should run a subset of sequential nested tasks', (t) => {
-    let events = [];
-    const p = Pipeline({
-        "stage1": [
-          "echo 'hello world'",
-          "echo 'second task'",
-          {
-            "sub": [ 'ls', 'ls -lhag' ],
-            "sub1": [ 'ls -lha' ]
-          }
-        ],
-        "stage2": [
-          "ls -lh",
-          {
-            "sub": [ 'ls', 'ls -lhag' ],
-            "sub1": [ 'ls -lha' ]
-          }
-        ]
-    }, ["stage1", "stage2:sub1"]);
-
-    p.on('stage:start', (stage) => {
-      events.push(stage);
-    });
-
-    p.on('stage:start:command', (stage, command) => {
-      events.push(`${stage}${command}`);
-    });
-
-    p.on('error', (error) => {
-      t.fail(error);
-    });
-
-    p.on('end', (results) => {
-      t.equal(results[0].children.length, 2);
-      t.equal(results[0].stages.length, 2);
-
-      t.equal(results[1].children.length, 2);
-      t.equal(results[1].stages.length, 0);
-      t.end();
-    });
-  });
-
-  t.test('should fail tasks when one fails', (t) => {
-    let events = [];
-    const p = Pipeline({
-        "stage1": [
-          "echo 'hello world'",
-          "echo 'second task'"
-        ],
-        "stage2": [
-          "alkdsjfa1"
-        ],
-        "neverun": [
-          "ls -lh"
-        ]
-    });
-
-    p.on('stage:start', (stage) => {
-      events.push(stage);
-    });
-
-    p.on('stage:start:command', (stage, command) => {
-      events.push(`${stage}${command}`);
-    });
-
-    p.on('error', (error) => {
-      t.fail(error);
-    });
-
-    p.on('end', (results) => {
-      t.deepEqual(events, [ 'stage1', 'stage1echo \'hello world\'', 'stage1echo \'second task\'', 'stage2', 'stage2alkdsjfa1', 'neverun', 'neverunls -lh' ])
-      t.equal(results[0].state, 'success');
-
-      t.equal(results[1].state, 'fail');
-      t.ok(results[1].stages[0].output.indexOf('not found') > -1);
-      t.ok(results[1].stages[0].time);
-
-      t.equal(results[2].state, 'unknown');
-      t.equal(results[2].stages[0].state, 'unknown');
-      t.ok(!isNaN(results[2].stages[0].time));
-
-      t.end();
-    });
+    }, { ignore: ["stage2"] });
   });
 
 });

@@ -7,3 +7,5 @@ package-lock.json
 build.json
 packed
 npm-debug.log
+test/fixtures/build
+build

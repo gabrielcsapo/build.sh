@@ -1,3 +1,21 @@
+#container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+#container-content {
+  width: 100%;
+  position: relative;
+  flex: 1;
+}
+
+.footer {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
 .navbar > .container > .nav > a {
   padding: 15px 10px 12px 10px;
 }
@@ -11,6 +29,10 @@ html, body {
 }
 
 .pipeline-container {
+  margin-top: 20px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: rgba(180, 180, 180, 0.10);
   width: 100%;
   overflow-x: scroll;
   text-align: center;

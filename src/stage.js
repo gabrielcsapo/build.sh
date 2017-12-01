@@ -18,7 +18,7 @@ class Stage extends React.Component {
     });
   }
   render() {
-    const { name, time, output, state } = this.props;
+    const { command, time, output, state } = this.props;
     const { selected } = this.state;
 
     return (
@@ -33,7 +33,7 @@ class Stage extends React.Component {
           </span>
 
           <span className="stage-title">
-            { selected ? "▿" : "▹"} { name }
+            { selected ? "▿" : "▹"} { command }
           </span>
 
           <div className="stage-time"> { ms(time || 0) } </div>
@@ -46,24 +46,4 @@ class Stage extends React.Component {
   }
 }
 
-class Stages extends React.Component {
-  render() {
-    const { stages, name } = this.props;
-
-    return (<div>
-      <div> { name } </div>
-      <ul className="stages">
-        { stages.map((child,i) => {
-          return (<li key={`${name}-${i}`}>
-            <Stage {...child}/>
-          </li>);
-        }) }
-      </ul>
-    </div>)
-  }
-}
-
-module.exports = {
-  Stage,
-  Stages
-}
+module.exports = Stage;

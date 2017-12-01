@@ -11,7 +11,6 @@
         "plugins/markdown"
     ],
     "opts": {
-        "template": "node_modules/docdash",
         "encoding": "utf8",
         "destination": "docs/code",
         "recurse": true,

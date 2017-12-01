@@ -1,75 +1,58 @@
-const test = require('tape').test;
+const test = require('tape');
 const path = require('path');
 const shell = require('shelljs');
-const git = require('../lib/git');
+const Git = require('../lib/git');
 
 test('git', (t) => {
   t.plan(4);
 
-  t.test('should fail because directory is not a git directory', (t) => {
-    t.plan(2);
+  t.test('should fail because directory is not a git directory', (async (t) => {
+    try {
+      const data = await Git({ directory: __dirname })
+      t.ok(data !== undefined);
+      t.fail('should not return data');
+      t.end();
+    } catch(err) {
+      t.ok(typeof err !== 'undefined', 'error is not undefined');
+      t.ok(err === 'directory does not contain git');
+      t.end();
+    }
+  }));
 
-    process.chdir(__dirname);
-    git({ directory: __dirname })
-      .then((data) => {
-        t.ok(data !== undefined);
-        t.fail('should not return data');
-        t.end();
-      })
-      .catch((err) => {
-        t.ok(typeof err !== 'undefined', 'error is not undefined');
-        t.ok(err === 'directory does not contain git');
-        t.end();
-      });
-  });
-
-  t.test('should return the correct data', (t) => {
-    t.plan(1);
-
+  t.test('should return the correct data', (async (t) => {
     var keys = [ 'author_date', 'author_email', 'author_name', 'branch', 'commit',
       'committer_date', 'committer_email', 'committer_name', 'message', 'remotes' ];
 
-    git({ directory: path.resolve(__dirname, '..') })
-      .then((data) => {
+      try {
+        const data = await Git({ directory: path.resolve(__dirname, '..') })
         t.deepEqual(Object.keys(data).sort(), keys);
         t.end();
-      })
-      .catch((error) => {
-        t.ok(!error, 'error should be undefined');
-        t.fail('should not return an error');
-        t.end();
-      });
-  });
+      } catch(err) {
+        t.ok(!err, 'error should be undefined');
+        t.end('should not return an error');
+      }
+  }));
 
-  t.test('should fail when no remote is present', (t) => {
+  t.test('should fail when no remote is present', (async (t) => {
     t.plan(1);
 
-    const root = process.cwd();
-    process.chdir(path.resolve(__dirname, 'fixtures', 'sample-module'));
+    const directory = path.resolve(__dirname, 'fixtures', 'sample-module');
 
-    shell.exec('git init');
-    shell.exec('git add -A');
-    shell.exec('git commit -m "testtest"');
-    git({ directory: path.resolve(__dirname, 'fixtures', 'sample-module') })
-      .then(() => {
-        t.fail('should fail, but doesn\'t');
-        process.chdir(root);
-      })
-      .catch((err) => {
-        t.equal(err, 'no remote found');
-        t.end();
-        process.chdir(root);
-      });
-  });
+    shell.exec('git init', { cwd: directory });
+    shell.exec('git add -A', { cwd: directory });
+    shell.exec('git commit -m "testtest"', { cwd: directory });
+
+    try {
+      await Git({ directory });
+      t.fail('should fail, but doesn\'t');
+    } catch(err) {
+      t.equal(err, 'no remote found');
+      t.end();
+    }
+  }));
 
   t.test('should cleanup git directory', (t) => {
-    t.plan(0);
-
-    const root = process.cwd();
-    process.chdir(path.resolve(__dirname, 'fixtures', 'sample-module'));
-
-    shell.exec('rm -rf .git');
-    process.chdir(root);
+    shell.exec('rm -rf .git', { cwd: path.resolve(__dirname, 'fixtures', 'sample-module') });
     t.end();
   });
 

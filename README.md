@@ -28,15 +28,17 @@ npm install build.sh -g
 ## Usage
 
 ```
-Usage: build [options]
+Usage: build [options] <steps>
 
 
 Options:
 
-  -V, --version        output the version number
-  -c, --config [file]  the input file for the build pipeline to run
-  -d, --debug          outputs a debug file of the build process and data captured
-  -h, --help           output usage information
+  -V, --version          output the version number
+  -c, --config [file]    the input file for the build pipeline to run (default: /Users/gabrielcsapo/Documents/build.sh/build.yml)
+  -d, --debug            outputs a debug file of the build process and data captured
+  -o, --output [output]  set the output path for the build artifact
+  -b, --browser          doesn't open browser
+  -h, --help             output usage information
 ```
 
 ## How To
@@ -79,7 +81,7 @@ pipeline:
     - npm run generate-docs
 ```
 
-> there is also the ability to run parts of pipeline by specifying which ones to run for example `build install:npm,lint,coverage,test` will only run the nested npm install, lint, coverage and test scripts
+> there is also the ability to run parts of pipeline by specifying which ones to run for example `build lint,coverage,test` will only run the nested npm install, lint, coverage and test scripts
 
 ![subset.png](./docs/subset.png)
 
@@ -95,6 +97,10 @@ An important factor when dealing with build pipelines is the persistence of envi
 
 ![environment.png](./docs/environment.png)
 
-If the build report was ran and built using `build.sh` it will also record the yaml file that it ran with under the `Config` tab.
+If the build report was ran and built using `build.sh` it will also record the yaml file that it ran with under the `Config` tab:
 
 ![config.png](./docs/config.png)
+
+To view the raw build data simply navigate to the `Report` tab and you will get a view similar to this:
+
+![report.png](./docs/report.png)
