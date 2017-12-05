@@ -30,11 +30,17 @@ test('pipeline', (t) => {
       t.equal(results.children[0].state, 'success');
       t.equal(results.children[0].children.length, 2)
 
-      t.equal(results.children[0].children[0].output, 'hello world\n');
+      t.equal(typeof results.children[0].children[0].output[0], 'object');
+      t.ok(results.children[0].children[0].output[0].date);
+      t.equal(results.children[0].children[0].output[0].type, 'stdout');
+      t.equal(results.children[0].children[0].output[0].content, 'hello world\n');
       t.equal(results.children[0].children[0].state, 'success');
       t.ok(results.children[0].children[0].time);
 
-      t.equal(results.children[0].children[1].output, 'second task\n');
+      t.equal(typeof results.children[0].children[1].output[0], 'object');
+      t.ok(results.children[0].children[1].output[0].date);
+      t.equal(results.children[0].children[1].output[0].type, 'stdout');
+      t.equal(results.children[0].children[1].output[0].content, 'second task\n');
       t.equal(results.children[0].children[1].state, 'success');
       t.ok(results.children[0].children[1].time);
 
@@ -64,18 +70,24 @@ test('pipeline', (t) => {
 
     p.run(() => {
       const results = p.getReport();
-      
+
       t.deepEqual(events, [ 'stage1' ]);
 
       t.equal(results.children[0].name, 'stage1');
       t.equal(results.children[0].state, 'success');
       t.equal(results.children[0].children.length, 2);
 
-      t.equal(results.children[0].children[0].output, 'hello world\n');
+      t.equal(typeof results.children[0].children[0].output[0], 'object');
+      t.ok(results.children[0].children[0].output[0].date);
+      t.equal(results.children[0].children[0].output[0].type, 'stdout');
+      t.equal(results.children[0].children[0].output[0].content, 'hello world\n');
       t.equal(results.children[0].children[0].state, 'success');
       t.ok(results.children[0].children[0].time);
 
-      t.equal(results.children[0].children[1].output, 'second task\n');
+      t.equal(typeof results.children[0].children[1].output[0], 'object');
+      t.ok(results.children[0].children[1].output[0].date);
+      t.equal(results.children[0].children[1].output[0].type, 'stdout');
+      t.equal(results.children[0].children[1].output[0].content, 'second task\n');
       t.equal(results.children[0].children[1].state, 'success');
       t.ok(results.children[0].children[1].time);
 

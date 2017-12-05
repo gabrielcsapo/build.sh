@@ -14,12 +14,18 @@ class Stage extends React.Component {
     const { selected } = this.state;
 
     this.setState({
-      selected: !selected
+      selected: !selected,
+      showTimestamp: true
+    });
+  }
+  toggleTimestamp(e) {
+    this.setState({
+      showTimestamp: e.target.checked
     });
   }
   render() {
-    const { command, time, output, state } = this.props;
-    const { selected } = this.state;
+    const { id, command, time, output, state } = this.props;
+    const { selected, showTimestamp } = this.state;
 
     return (
       <div>
@@ -39,7 +45,22 @@ class Stage extends React.Component {
           <div className="stage-time"> { ms(time || 0) } </div>
         </div>
         { selected ?
-          <pre> { output } </pre>
+          <pre>
+            <div style={{ float: 'right' }}>
+              <input type="checkbox" id={`${id}-showTimestamp`} checked={ showTimestamp ? true : false } style={{ display: 'inline-block', width: 'auto' }} onChange={this.toggleTimestamp.bind(this)}/>&nbsp;
+              <label htmlFor={`${id}-showTimestamp`} style={{ display: 'inline-block' }}>Show Timestamp</label>
+            </div>
+            <table style={{ width: '100%' }}>
+              { output.map((l) => {
+                const date = new Date(l.date);
+
+                return <tr>
+                  {showTimestamp ? <td style={{ borderRight: '1px solid #dedede', paddingRight: '2px', width: '100px' }}><b>{date.getHours()}:{date.getMinutes()}:{date.getSeconds()}:{date.getMilliseconds()}</b></td> : '' }
+                  <td style={{ paddingLeft: showTimestamp ? '3px' : '0px' }}><span>{ l.content }</span></td>
+                </tr>
+              }) }
+            </table>
+          </pre>
         : '' }
       </div>
     )

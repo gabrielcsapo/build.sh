@@ -1,3 +1,8 @@
+# 1.0.1 (12/04/2017)
+
+- adds timestamp to all logs
+  - adds the ability to toggle them on and off
+
 # 1.0.0 (11/29/2017)
 
 - fixes pipeline to find times recursively
