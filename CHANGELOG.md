@@ -1,3 +1,8 @@
+# 1.0.2 (01/01/2018)
+
+- uses ascii-pipeline to generate an ascii pipeline!
+- updates dependencies
+
 # 1.0.1 (12/04/2017)
 
 - adds timestamp to all logs
