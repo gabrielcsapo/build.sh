@@ -1,3 +1,7 @@
+# 1.0.3 (01/12/2018)
+
+- updates dependencies
+
 # 1.0.2 (01/01/2018)
 
 - uses ascii-pipeline to generate an ascii pipeline!
