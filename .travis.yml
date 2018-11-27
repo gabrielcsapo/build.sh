@@ -5,6 +5,5 @@ script:
   - npm run coverage
   - cat coverage/lcov.info | lcov-server --upload https://lcov-server.gabrielcsapo.com
 node_js:
-  - "6"
   - "8"
   - "10"
