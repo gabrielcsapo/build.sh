@@ -26,11 +26,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+            <pre class="prettyprint source linenums"><code>const webpack = require('webpack')
+const path = require('path')
+const fs = require('fs')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
 
 /**
  * compiles the given build configuration to a single html report
@@ -39,28 +39,28 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
  * @param  {String}   options.output  - the directory that the report will be built in
  * @param  {Object}   options.config  - the build configuration object create by Pipeline
  */
-function Compile({ output, config }) {
-  return new Promise(function(resolve, reject) {
+function Compile ({ output, config }) {
+  return new Promise(function (resolve, reject) {
     webpack({
       entry: path.resolve(__dirname, '..', 'src', 'index.js'),
       output: {
         path: output,
-        filename: "build.js"
+        filename: 'build.js'
       },
       context: __dirname,
       module: {
-        loaders: [{
-            test: /\.css$/,
-            loaders: ['style-loader', 'css-loader']
-          },
-          {
-            test: /.jsx?$/,
-            loader: 'babel-loader',
-            exclude: /node_modules(?!\/build.sh)/,
-            query: {
-              presets: ['env', 'react']
-            }
+        rules: [{
+          test: /\.css$/,
+          loaders: ['style-loader', 'css-loader']
+        },
+        {
+          test: /.jsx?$/,
+          loader: 'babel-loader',
+          exclude: /node_modules(?!\/build.sh)/,
+          query: {
+            presets: ['@babel/env', '@babel/react']
           }
+        }
         ]
       },
       resolve: {
@@ -81,20 +81,20 @@ function Compile({ output, config }) {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.AggressiveMergingPlugin()
       ]
-    }, function(err, stats) {
+    }, function (err, stats) {
       if (stats.compilation.errors &amp;&amp; stats.compilation.errors.length > 0) {
-        return reject(stats.compilation.errors);
+        return reject(stats.compilation.errors)
       } // eslint-disable-line
       if (err) {
-        return reject(err);
+        return reject(err)
       }
-      fs.unlinkSync(path.resolve(output, 'build.js'));
-      return resolve();
-    });
-  });
+      fs.unlinkSync(path.resolve(output, 'build.js'))
+      return resolve()
+    })
+  })
 }
 
-module.exports = Compile;
+module.exports = Compile
 </code></pre>
         </article>
     </section>

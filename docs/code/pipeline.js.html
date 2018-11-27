@@ -26,8 +26,8 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const { EventEmitter } = require('events');
-const Command = require('./command');
+            <pre class="prettyprint source linenums"><code>const { EventEmitter } = require('events')
+const Command = require('./command')
 
 class Pipeline {
   /**
@@ -38,48 +38,48 @@ class Pipeline {
    * @param  {Pipeline=}    parent - the parent Pipeline
    * @param  {EventEmitter=}    events - the parent Pipeline's event emitter
    */
-  constructor(tasks=[], name, parent, events) {
-    this.events = events || new EventEmitter();
-    this.name = name || '';
-    this.parent = parent || '';
-    if(typeof tasks === 'object' &amp;&amp; !Array.isArray(tasks)) {
+  constructor (tasks = [], name, parent, events) {
+    this.events = events || new EventEmitter()
+    this.name = name || ''
+    this.parent = parent || ''
+    if (typeof tasks === 'object' &amp;&amp; !Array.isArray(tasks)) {
       this.tasks = Object.keys(tasks).map((name) => {
-        return new Pipeline(tasks[name], name, this, this.events);
-      });
+        return new Pipeline(tasks[name], name, this, this.events)
+      })
     } else {
       this.tasks = tasks.map((task) => {
-        if(typeof task === 'object') {
+        if (typeof task === 'object') {
           return Object.keys(task).map((name) => {
-            return new Pipeline(task[name], name, this, this.events);
-          });
+            return new Pipeline(task[name], name, this, this.events)
+          })
         } else {
-          return new Command(this, task);
+          return new Command(this, task)
         }
-      });
+      })
     }
-    this.tasks = [].concat.apply([], this.tasks);
-    this.state = 'unknown';
-    this.id = Date.now() + Math.random().toString(36).substr(2, 10);
+    this.tasks = [].concat.apply([], this.tasks)
+    this.state = 'unknown'
+    this.id = Date.now() + Math.random().toString(36).substr(2, 10)
   }
   /**
    * @type {string}
    */
-  get path() {
-    if(this.name !== '') {
-      return `${this.name}${this.parent.path ? `:${this.parent.path}` : '' }`;
+  get path () {
+    if (this.name !== '') {
+      return `${this.name}${this.parent.path ? `:${this.parent.path}` : ''}`
     } else {
-      return '';
+      return ''
     }
   }
   /**
    * @type {string}
    */
-  get paths() {
-    var paths = [this.path];
+  get paths () {
+    var paths = [this.path]
     this.tasks.forEach((task) => {
       paths = paths.concat(task.paths)
-    });
-    return paths.filter((p) => p);
+    })
+    return paths.filter((p) => p)
   }
   /**
    * runs the pipeline and its children recursively
@@ -89,38 +89,29 @@ class Pipeline {
    * @param  {Object=}  options - an options block that contains overrides
    * @param  {Array=}   options.ignore - an array of fullNames of pipelines for example sub:sub2 would ignore sub2 as a child of sub
    */
-  run(callback, options={}) {
-    const { ignore=[] } = options;
+  async run (options = {}) {
+    const { ignore = [] } = options
 
-    var self = this;
-    var index = 0;
-    function next() {
-      if(index == self.tasks.length) {
-        self.name ? self.events.emit('end', self) : '';
+    // ignore this if it exists in the ignore array
+    if (ignore.indexOf(this.path) === -1) {
+      if (this.name) {
+        this.events.emit('start', this)
+      }
 
-        callback(self.state);
-      } else {
-        self.tasks[index].run((state) => {
-          self.state = state || 'success';
+      for (const task of this.tasks) {
+        const state = await task.run({ ignore })
 
-          if(state === 'fail') {
-            return callback(self.state);
-          }
-          // bump to the next item
-          index += 1;
-          next();
-        }, { ignore });
+        this.state = state || 'success'
+
+        if (state === 'fail') return
+      }
+
+      if (this.name) {
+        this.events.emit('end', this)
       }
     }
-    // ignore this if it exists in the ignore array
-    if(ignore.indexOf(this.path) === -1) {
-      self.name ? self.events.emit('start', this) : '';
 
-      next();
-    } else {
-      callback();
-    }
-
+    return this.state
   }
   /**
    * Gets information for the pipeline and its children
@@ -128,20 +119,20 @@ class Pipeline {
    * @method getReport
    * @return {Object}
    */
-  getReport() {
+  getReport () {
     return {
       id: this.id,
       name: this.name,
       state: this.state,
       type: 'pipeline',
       children: this.tasks.map((task) => {
-        return task.getReport();
+        return task.getReport()
       })
     }
   }
 }
 
-module.exports = Pipeline;
+module.exports = Pipeline
 </code></pre>
         </article>
     </section>

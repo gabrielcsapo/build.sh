@@ -1,3 +1,11 @@
+# 1.1.0 (11/27/2018)
+
+- updates docs
+- moves `eslint` -> `standard`
+- migrates to git functionality to async function
+- migrates (command|pipeline) run to async function instead of a callback
+- moves out convertToAsciiPipeline to util file
+
 # 1.0.3 (01/12/2018)
 
 - updates dependencies
