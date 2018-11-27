@@ -1,3 +1,7 @@
+# 1.1.1 (11/27/2018)
+
+- fix issue in CI where ref head is not a symbolic ref
+
 # 1.1.0 (11/27/2018)
 
 - updates docs
