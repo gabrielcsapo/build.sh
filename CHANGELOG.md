@@ -1,3 +1,14 @@
+# 1.2.0 (04/26/2019)
+
+- generate a multi line pipeline
+```
+   ─┬─install─┬─lint─┬─coverage─┬─test──docs
+    |         |      |          |
+    └──npm────┘      └──upload──┘
+```
+- updates dependencies
+
+
 # 1.1.1 (11/27/2018)
 
 - fix issue in CI where ref head is not a symbolic ref
