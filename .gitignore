@@ -9,3 +9,6 @@ packed
 npm-debug.log
 test/fixtures/build
 build
+dist
+website/static/storybook
+website/static/example

@@ -1,0 +1,6 @@
+coverage
+docs
+dist
+build
+.docusaurus
+website/static

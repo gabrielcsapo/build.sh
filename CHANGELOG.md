@@ -1,13 +1,23 @@
+# 2.0.0
+
+- adds an in_progress state to differentiate between unknown and in_progress.
+- migrates to esm
+- updates all libraries to latest
+- bug: fixes issue where ignore was not properly being treated
+- rewrite to typescript
+- brand new website with api docs
+
 # 1.2.0 (04/26/2019)
 
 - generate a multi line pipeline
+
 ```
    ─┬─install─┬─lint─┬─coverage─┬─test──docs
     |         |      |          |
     └──npm────┘      └──upload──┘
 ```
-- updates dependencies
 
+- updates dependencies
 
 # 1.1.1 (11/27/2018)
 
@@ -61,7 +71,7 @@
 
 # 0.2.8 (11/13/2017)
 
-- moves from psychic-ui to psychic.css (reduces bundle from 257 KB -> 239 KB *7%*)
+- moves from psychic-ui to psychic.css (reduces bundle from 257 KB -> 239 KB _7%_)
 - updates dependencies
 
 # 0.2.7 (10/12/2017)

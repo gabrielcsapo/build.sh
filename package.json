@@ -1,6 +1,6 @@
 {
   "name": "build.sh",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "🔨 run and visualize the build process",
   "repository": {
     "type": "https",
@@ -10,79 +10,75 @@
     "url": "https://github.com/gabrielcsapo/build.sh/issues"
   },
   "homepage": "https://www.gabrielcsapo.com/build.sh",
-  "main": "index.js",
+  "main": "./dist/lib/index.js",
   "scripts": {
-    "lint": "standard",
-    "test": "tape test/**.js",
-    "coverage": "tap test --coverage --coverage-report=lcov --no-browser",
-    "generate-docs": "tryitout && jsdoc -c jsdoc.json",
-    "pack": "pkg bin/build.js -c package.json -o packed/build",
+    "lint": "prettier --write .",
+    "build": "tsc && esbuild ./bin/build.mjs --bundle --platform=node --outfile=dist/bin/build.cjs --external:pnpapi --external:@swc/core --format=cjs --inject:./scripts/import-meta-url.js --define:import.meta.url=import_meta_url",
+    "test": "vitest lib/*.test.js --coverage",
+    "pack": "pkg dist/bin/build.cjs -c package.json -o packed/build",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o ./docs/storybook"
+    "build-storybook": "build-storybook -o website/static/storybook"
   },
   "bin": {
-    "build": "./bin/build.js"
+    "build": "./bin/build.mjs"
   },
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "Apache-2.0",
-  "standard": {
-    "envs": [
-      "browser",
-      "node"
-    ],
-    "parser": "babel-eslint",
-    "ignore": [
-      "docs/**",
-      "dist/**"
-    ]
-  },
   "dependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
-    "ascii-pipeline": "^0.2.0",
-    "async": "^2.6.2",
-    "babel-loader": "^8.0.5",
-    "commander": "^2.20.0",
-    "css-loader": "^2.1.1",
-    "html-webpack-inline-source-plugin": "0.0.10",
-    "html-webpack-plugin": "^3.2.0",
-    "js-yaml": "^3.13.1",
-    "log-update": "^3.2.0",
-    "opn": "^6.0.0",
-    "prop-types": "^15.7.2",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "ascii-pipeline": "^0.2.1",
+    "babel-loader": "^9.1.0",
+    "commander": "^9.4.1",
+    "css-loader": "^6.7.2",
+    "html-webpack-plugin": "^5.5.0",
+    "js-yaml": "^4.1.0",
+    "log-update": "^5.0.1",
+    "open": "^8.4.0",
     "psychic.css": "0.0.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.30.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^5.0.10",
-    "@storybook/react": "^5.0.10",
-    "babel-eslint": "^10.0.1",
-    "docdash": "^1.1.0",
-    "jsdoc": "^3.5.5",
-    "pkg": "^4.3.7",
-    "standard": "^12.0.1",
-    "tap": "^13.0.3",
-    "tape": "^4.10.1",
-    "tryitout": "^2.0.6"
+    "@storybook/addon-actions": "^6.5.14",
+    "@storybook/addon-essentials": "^6.5.14",
+    "@storybook/addon-interactions": "^6.5.14",
+    "@storybook/addon-links": "^6.5.14",
+    "@storybook/builder-webpack5": "^6.5.14",
+    "@storybook/manager-webpack5": "^6.5.14",
+    "@storybook/react": "^6.5.14",
+    "@storybook/testing-library": "^0.0.13",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "@vitest/coverage-c8": "^0.25.3",
+    "esbuild": "^0.15.16",
+    "pkg": "^5.8.0",
+    "prettier": "^2.8.0",
+    "shelljs": "^0.8.5",
+    "typescript": "^4.9.3",
+    "vite": "^3.2.4",
+    "vitest": "^0.25.3"
   },
   "pkg": {
     "scripts": [
-      "bin/*",
-      "util/**/*"
+      "dist/bin/*"
     ],
     "assets": [
-      "src/**/*",
+      "dist/**/*",
       "node_modules/psychic.css/dist/psychic.min.css"
     ],
     "targets": [
-      "node8-macos-x64",
-      "node8-alpine-x64",
-      "node8-linux-x64",
-      "node8-win-x64"
+      "node18-macos-x64",
+      "node18-alpine-x64",
+      "node18-linux-x64",
+      "node18-win-x64"
     ]
+  },
+  "volta": {
+    "node": "18.12.1"
   }
 }

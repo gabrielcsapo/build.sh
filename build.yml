@@ -1,20 +1,9 @@
-output: ./docs/example
+output: ./website/static/example
 env:
-  - FOO=bar
+  - CI=true
 pipeline:
-  foo:
-    - echo $FOO
-  install:
-    - npm --version
-    - node --version
-    - npm:
-      - npm install
-      - ls -lh node_modules
-  lint:
+  build:
+    - npm run build
     - npm run lint
-  coverage:
-    - npm run coverage
   test:
-    - npm test
-  docs:
-    - npm run generate-docs
+    - npm run test

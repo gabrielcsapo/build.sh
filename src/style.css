@@ -24,7 +24,8 @@
   border-bottom: 1px dotted #ababab;
 }
 
-html, body {
+html,
+body {
   font-family: "Helvetica Nue", Helvetica;
 }
 
@@ -32,7 +33,7 @@ html, body {
   margin-top: 20px;
   padding-top: 50px;
   padding-bottom: 50px;
-  background-color: rgba(180, 180, 180, 0.10);
+  background-color: rgba(180, 180, 180, 0.1);
   width: 100%;
   overflow-x: scroll;
   text-align: center;
@@ -85,8 +86,8 @@ html, body {
 .pipeline-node-selected > circle {
   stroke: #808080;
   fill: #808080;
-  stroke-width: .5px;
-  opacity: .5;
+  stroke-width: 0.5px;
+  opacity: 0.5;
 }
 .pipeline-node-terminal {
   fill: #a7a7a7;
@@ -107,7 +108,7 @@ html, body {
   background: orange;
 }
 
-.icon-{
+.icon- {
   fill: orange;
   background: orange;
 }
